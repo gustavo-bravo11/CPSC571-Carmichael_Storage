@@ -1,7 +1,7 @@
 -- Run this command first
 CREATE TABLE carmichael_number (
     number NUMERIC(24, 0) PRIMARY KEY,
-    factors NUMERIC(20, 0)[] NOT NULL
+    factors BIGINT[] NOT NULL
 );
 
 -- After the batch insert, run this command, prevent insert slowdown
