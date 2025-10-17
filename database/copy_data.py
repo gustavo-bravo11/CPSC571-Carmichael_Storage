@@ -6,8 +6,11 @@ from io import StringIO
 import os
 from dotenv import load_dotenv
 
+# Load environment variables
+load_dotenv(override=True)
+
 # Constants
-FILENAME = "carmichael_numbers.txt"         # Must be in your .env file
+FILENAME = os.getenv('FILE_LOCATION', '')   # Must be in your .env file
 BATCH_SIZE = 1000000                        # Commit every 1 million rows
 
 def main():
@@ -15,17 +18,12 @@ def main():
         Insert data using batch processing!
         First query the database to find the starting point based on
         the batch size.
-
-
     """
     if FILENAME == '':
         raise ValueError(
             ("Please have a valid .env file and have the file containining ") +
             ("the carmichael numbers in the correct format.")
         )
-
-
-    load_dotenv(override=True)
 
     with psycopg2.connect(
         host=os.getenv('HOST'),
