@@ -7,7 +7,7 @@ import os
 from dotenv import load_dotenv
 
 # Constants
-FILENAME = os.getenv('FILE_LOCATION', '')   # Must be in your .env file
+FILENAME = "carmichael_numbers.txt"         # Must be in your .env file
 BATCH_SIZE = 1000000                        # Commit every 1 million rows
 
 def main():
@@ -21,7 +21,7 @@ def main():
     if FILENAME == '':
         raise ValueError(
             ("Please have a valid .env file and have the file containining ") +
-            ("the carmichael numbers in the correct format")
+            ("the carmichael numbers in the correct format.")
         )
 
 
@@ -39,21 +39,26 @@ def main():
             # Get the max value
             cur.execute("SELECT MAX(number) FROM carmichael_number")
             numb_qr = cur.fetchall()[0]
-            last_inserted = numb_qr[0] if numb_qr is not None else 0
+            last_inserted = numb_qr[0] if numb_qr[0] is not None else 0
+            processing = last_inserted != 0
 
             batch_num = 0
             total_inserted = 0
+
+            print(f"Beginning at carmichael numbers greater than {last_inserted}")
+            if processing:
+                print("Skipping...")
             
             # Skips rows already inserted inside get_batch (linearly)
             # File marker (f) maintains our spot after each batch
             with open(FILENAME, 'r', encoding='utf-8') as f:
                 while True:
-                    batch_num += BATCH_SIZE
+                    batch_num += 1
                     
                     print(f"\nBatch {batch_num}: Reading up to {BATCH_SIZE} rows...")
                     
                     # Get batch data as StringIO buffer
-                    buffer, batch_count = get_batch(f, last_inserted)
+                    buffer, batch_count = get_batch(f, last_inserted, processing)
                     
                     # If no rows were read, we're done
                     if batch_count == 0:
@@ -80,13 +85,10 @@ def main():
     conn.close()
 
 
-def get_batch(file_handle, last_inserted):
+def get_batch(file_handle, last_inserted, processing):
     """Read a batch of rows and return as StringIO buffer"""
     buffer = StringIO()
     batch_count = 0
-    processing = last_inserted != 0
-    
-    print(f"Beginning at carmichael numbers greater than {last_inserted}")
     
     for line in file_handle:
         parts = line.strip().split()
@@ -97,7 +99,7 @@ def get_batch(file_handle, last_inserted):
         
         # Skip already processed
         if processing:
-            if Decimal(cm_number) <= last_inserted:
+            if Decimal(cm_number) <= Decimal(last_inserted):
                 continue
             else:
                 processing = False
