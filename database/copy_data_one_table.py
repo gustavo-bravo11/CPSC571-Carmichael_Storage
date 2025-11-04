@@ -37,6 +37,8 @@ def main():
             # Get the max value
             cur.execute("SELECT MAX(number) FROM carmichael_number")
             numb_qr = cur.fetchall()[0]
+
+            # If query returns none, set the value to 0 and skip the processing step
             last_inserted = numb_qr[0] if numb_qr[0] is not None else 0
             processing = last_inserted != 0
 
