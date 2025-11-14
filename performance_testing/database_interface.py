@@ -7,40 +7,71 @@ from different database implementations (single table vs. partitioned tables).
 
 from abc import ABC, abstractmethod
 from typing import List, Tuple, Optional
-import psycopg2
-from psycopg2.extras import RealDictCursor
+import subprocess
 from decimal import Decimal
 import os
 from dotenv import load_dotenv
+import json
 
 
 class CarmichaelDatabase(ABC):
     """Abstract base class for Carmichael number database implementations."""
 
     def __init__(self):
-        """Initialize database connection using environment variables."""
-        load_dotenv()
-        self.connection = psycopg2.connect(
-            host=os.getenv('DB_HOST', 'localhost'),
-            database=os.getenv('DB_NAME', 'cm_numbers'),
-            user=os.getenv('DB_USER', 'postgres'),
-            password=os.getenv('DB_PASSWORD'),
-            port=os.getenv('DB_PORT', '5432')
-        )
-        self.connection.autocommit = True
+        """Initialize database connection parameters using environment variables."""
+        load_dotenv(override=True)
+        self.host = os.getenv('HOST', 'localhost')
+        self.database = os.getenv('DATABASE', 'cm_numbers')
+        self.user = os.getenv('PQ_USER', 'postgres')
+        self.password = os.getenv('PQ_USER_PASSWORD', '')
+        self.port = os.getenv('PQ_PORT', '5432')
 
     def __enter__(self):
         """Context manager entry."""
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        """Context manager exit - close connection."""
-        self.close()
+        """Context manager exit."""
+        pass
 
     def close(self):
-        """Close database connection."""
-        if self.connection:
-            self.connection.close()
+        """Close database connection (no-op for subprocess implementation)."""
+        pass
+
+    def run_psql_query(self, query):
+        """
+        Execute a SQL query using psql command-line tool.
+        Returns the output as a string.
+        """
+        # Build psql command
+        cmd = [
+            'psql',
+            '-h', self.host,
+            '-U', self.user,
+            '-d', self.database,
+            '-p', self.port,
+            '-t',  # Tuples only (no headers)
+            '-A',  # Unaligned output
+            '-c', query
+        ]
+
+        # Set password as environment variable
+        env = os.environ.copy()
+        if self.password:
+            env['PGPASSWORD'] = self.password
+
+        # Run the command
+        result = subprocess.run(
+            cmd,
+            capture_output=True,
+            text=True,
+            env=env
+        )
+
+        if result.returncode != 0:
+            raise Exception(f"psql command failed: {result.stderr}")
+
+        return result.stdout.strip()
 
     @abstractmethod
     def query_by_factors(self, factors: List[int]) -> Optional[Tuple[Decimal, List[int]]]:
@@ -81,23 +112,31 @@ class SingleTableDB(CarmichaelDatabase):
 
         Uses PostgreSQL array containment operator @> to find matching rows.
         """
-        with self.connection.cursor(cursor_factory=RealDictCursor) as cur:
-            # Convert factors to array format for PostgreSQL
-            factors_array = '{' + ','.join(str(f) for f in factors) + '}'
+        # Convert factors to array format for PostgreSQL
+        factors_array = '{' + ','.join(str(f) for f in factors) + '}'
 
-            query = """
-                SELECT number, factors
-                FROM carmichael_number
-                WHERE factors @> %s::bigint[]
-                LIMIT 1
-            """
+        query = f"""
+            SELECT number, factors
+            FROM carmichael_number
+            WHERE factors @> '{factors_array}'::bigint[]
+            LIMIT 1
+        """
 
-            cur.execute(query, (factors_array,))
-            result = cur.fetchone()
+        result = self.run_psql_query(query)
 
-            if result:
-                return (result['number'], result['factors'])
-            return None
+        if result:
+            # Parse the result (format: number|{factor1,factor2,...})
+            lines = result.strip().split('\n')
+            if lines and lines[0]:
+                parts = lines[0].split('|')
+                if len(parts) == 2:
+                    number = Decimal(parts[0])
+                    # Parse array format: {1,2,3} -> [1,2,3]
+                    factors_str = parts[1].strip('{}')
+                    factors_list = [int(f) for f in factors_str.split(',')]
+                    return (number, factors_list)
+
+        return None
 
 
 class MultiTableDB(CarmichaelDatabase):
@@ -123,25 +162,32 @@ class MultiTableDB(CarmichaelDatabase):
         start_table = max(3, num_factors)
         end_table = 14
 
-        with self.connection.cursor(cursor_factory=RealDictCursor) as cur:
-            factors_array = '{' + ','.join(str(f) for f in factors) + '}'
+        factors_array = '{' + ','.join(str(f) for f in factors) + '}'
 
-            # Search tables in order from smallest to largest
-            # This finds the first match with the minimum number of factors
-            for factor_count in range(start_table, end_table + 1):
-                table_name = f"carmichael_number_{factor_count}"
+        # Search tables in order from smallest to largest
+        # This finds the first match with the minimum number of factors
+        for factor_count in range(start_table, end_table + 1):
+            table_name = f"carmichael_number_{factor_count}"
 
-                query = f"""
-                    SELECT number, factors
-                    FROM {table_name}
-                    WHERE factors @> %s::bigint[]
-                    LIMIT 1
-                """
+            query = f"""
+                SELECT number, factors
+                FROM {table_name}
+                WHERE factors @> '{factors_array}'::bigint[]
+                LIMIT 1
+            """
 
-                cur.execute(query, (factors_array,))
-                result = cur.fetchone()
+            result = self.run_psql_query(query)
 
-                if result:
-                    return (result['number'], result['factors'])
+            if result:
+                # Parse the result (format: number|{factor1,factor2,...})
+                lines = result.strip().split('\n')
+                if lines and lines[0]:
+                    parts = lines[0].split('|')
+                    if len(parts) == 2:
+                        number = Decimal(parts[0])
+                        # Parse array format: {1,2,3} -> [1,2,3]
+                        factors_str = parts[1].strip('{}')
+                        factors_list = [int(f) for f in factors_str.split(',')]
+                        return (number, factors_list)
 
-            return None
+        return None
