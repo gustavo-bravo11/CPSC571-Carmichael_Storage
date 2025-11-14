@@ -1,8 +1,6 @@
-import psycopg2
-
+import subprocess
 from decimal import Decimal
 from io import StringIO
-
 import os
 from dotenv import load_dotenv
 
@@ -12,6 +10,88 @@ load_dotenv(override=True)
 # Constants
 FILENAME = os.getenv('FILE_LOCATION', '')   # Must be in your .env file
 BATCH_SIZE = 1000000                        # Commit every 1 million rows
+
+def run_psql_query(query, input_data=None):
+    """
+    Execute a SQL query using psql command-line tool.
+    Returns the output as a string.
+    """
+    # Build connection string
+    host = os.getenv('HOST')
+    database = os.getenv('DATABASE')
+    user = os.getenv('PQ_USER')
+    password = os.getenv('PQ_USER_PASSWORD', '')
+    port = os.getenv('PQ_PORT')
+
+    # Build psql command
+    cmd = [
+        'psql',
+        '-h', host,
+        '-U', user,
+        '-d', database,
+        '-p', port,
+        '-t',  # Tuples only (no headers)
+        '-A',  # Unaligned output
+        '-c', query
+    ]
+
+    # Set password as environment variable
+    env = os.environ.copy()
+    if password:
+        env['PGPASSWORD'] = password
+
+    # Run the command
+    result = subprocess.run(
+        cmd,
+        input=input_data,
+        capture_output=True,
+        text=True,
+        env=env
+    )
+
+    if result.returncode != 0:
+        raise Exception(f"psql command failed: {result.stderr}")
+
+    return result.stdout.strip()
+
+def insert_batch(table_name, data):
+    """
+    Insert batch data using COPY command via psql.
+    Data should be tab-separated values ready for COPY FROM STDIN.
+    """
+    # Build connection parameters
+    host = os.getenv('HOST')
+    database = os.getenv('DATABASE')
+    user = os.getenv('PQ_USER')
+    password = os.getenv('PQ_USER_PASSWORD', '')
+    port = os.getenv('PQ_PORT')
+
+    # Build psql command for COPY
+    cmd = [
+        'psql',
+        '-h', host,
+        '-U', user,
+        '-d', database,
+        '-p', port,
+        '-c', f'COPY {table_name} (number, factors) FROM STDIN'
+    ]
+
+    # Set password as environment variable
+    env = os.environ.copy()
+    if password:
+        env['PGPASSWORD'] = password
+
+    # Run the command with data piped to stdin
+    result = subprocess.run(
+        cmd,
+        input=data,
+        capture_output=True,
+        text=True,
+        env=env
+    )
+
+    if result.returncode != 0:
+        raise Exception(f"COPY command failed: {result.stderr}")
 
 def main():
     """
@@ -26,79 +106,62 @@ def main():
             ("the carmichael numbers in the correct format.")
         )
 
-    with psycopg2.connect(
-        host=os.getenv('HOST'),
-        database=os.getenv('DATABASE'),
-        user=os.getenv('PQ_USER'),
-        password=os.getenv('PQ_USER_PASSWORD', ''),
-        port=os.getenv('PQ_PORT')
-    ) as conn:
-        with conn.cursor() as cur:
+    # Get the max value from all tables and keep the largest
+    last_inserted = 0
+    for num_factors in range(3, 15):
+        table_name = f"carmichael_number_{num_factors}"
+        max_result = run_psql_query(f"SELECT MAX(number) FROM {table_name}")
+        max_val = Decimal(max_result) if max_result and max_result != '' else 0
+        if max_val > last_inserted:
+            last_inserted = max_val
 
-            # Get the max value from all tables and keep the largest
-            last_inserted = 0
+    processing = last_inserted != 0
+
+    batch_num = 0
+    total_inserted = {i: 0 for i in range(3, 15)}  # Track inserts per table
+
+    print(f"Beginning at carmichael numbers greater than {last_inserted}")
+    if processing:
+        print("Skipping...")
+
+    # Skips rows already inserted inside get_batch (linearly)
+    # File marker (f) maintains our spot after each batch
+    with open(FILENAME, 'r', encoding='utf-8') as f:
+        while True:
+            batch_num += 1
+
+            print(f"\nBatch {batch_num}: Reading up to {BATCH_SIZE} rows...")
+
+            # Get batch data as dictionary of StringIO buffers (one per table)
+            buffers, batch_counts = get_batch(f, last_inserted, processing)
+
+            # If no rows were read, we're done
+            if sum(batch_counts.values()) == 0:
+                print(f"\nImport complete!")
+                break
+
+            # Insert batches for each table using subprocess
             for num_factors in range(3, 15):
-                table_name = f"carmichael_number_{num_factors}"
-                cur.execute(f"SELECT MAX(number) FROM {table_name}")
-                numb_qr = cur.fetchall()[0]
-                max_val = numb_qr[0] if numb_qr[0] is not None else 0
-                if max_val > last_inserted:
-                    last_inserted = max_val
+                if batch_counts[num_factors] > 0:
+                    table_name = f"carmichael_number_{num_factors}"
+                    insert_batch(table_name, buffers[num_factors].getvalue())
+                    total_inserted[num_factors] += batch_counts[num_factors]
 
-            processing = last_inserted != 0
+            # Print batch summary
+            batch_total = sum(batch_counts.values())
+            print(f"Batch {batch_num} complete: {batch_total} rows")
+            for num_factors in range(3, 15):
+                if batch_counts[num_factors] > 0:
+                    print(f"  - {num_factors} factors: {batch_counts[num_factors]} rows (Total: {total_inserted[num_factors]})")
 
-            batch_num = 0
-            total_inserted = {i: 0 for i in range(3, 15)}  # Track inserts per table
-
-            print(f"Beginning at carmichael numbers greater than {last_inserted}")
-            if processing:
-                print("Skipping...")
-
-            # Skips rows already inserted inside get_batch (linearly)
-            # File marker (f) maintains our spot after each batch
-            with open(FILENAME, 'r', encoding='utf-8') as f:
-                while True:
-                    batch_num += 1
-
-                    print(f"\nBatch {batch_num}: Reading up to {BATCH_SIZE} rows...")
-
-                    # Get batch data as dictionary of StringIO buffers (one per table)
-                    buffers, batch_counts = get_batch(f, last_inserted, processing)
-
-                    # If no rows were read, we're done
-                    if sum(batch_counts.values()) == 0:
-                        print(f"\nImport complete!")
-                        break
-
-                    # Insert batches for each table
-                    for num_factors in range(3, 15):
-                        if batch_counts[num_factors] > 0:
-                            table_name = f"carmichael_number_{num_factors}"
-                            cur.copy_expert(
-                                f"COPY {table_name} (number, factors) FROM STDIN",
-                                buffers[num_factors]
-                            )
-                            total_inserted[num_factors] += batch_counts[num_factors]
-
-                    conn.commit()
-
-                    # Print batch summary
-                    batch_total = sum(batch_counts.values())
-                    print(f"Batch {batch_num} complete: {batch_total} rows")
-                    for num_factors in range(3, 15):
-                        if batch_counts[num_factors] > 0:
-                            print(f"  - {num_factors} factors: {batch_counts[num_factors]} rows (Total: {total_inserted[num_factors]})")
-
-                    # If we got fewer rows than batch size, we're done
-                    if batch_total < BATCH_SIZE:
-                        print(f"\nImport complete!")
-                        print("Final totals:")
-                        for num_factors in range(3, 15):
-                            if total_inserted[num_factors] > 0:
-                                print(f"  - carmichael_number_{num_factors}: {total_inserted[num_factors]} rows")
-                        break
-
-    cur.close()
+            # If we got fewer rows than batch size, we're done
+            if batch_total < BATCH_SIZE:
+                print(f"\nImport complete!")
+                print("Final totals:")
+                for num_factors in range(3, 15):
+                    if total_inserted[num_factors] > 0:
+                        print(f"  - carmichael_number_{num_factors}: {total_inserted[num_factors]} rows")
+                break
 
 
 def get_batch(file_handle, last_inserted, processing):
