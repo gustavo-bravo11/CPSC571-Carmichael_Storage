@@ -27,7 +27,7 @@ def main():
 
     with psycopg2.connect(
         host=os.getenv('HOST'),
-        database=os.getenv("DATABASE"),
+        database=os.getenv('DATABASE'),
         user=os.getenv('PQ_USER'),
         password=os.getenv('PQ_USER_PASSWORD', ''),
         port=os.getenv('PQ_PORT')
