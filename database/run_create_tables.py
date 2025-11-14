@@ -16,14 +16,18 @@ def run_sql_file(sql_file_path):
     password = os.getenv('PQ_USER_PASSWORD', '')
     port = os.getenv('PQ_PORT')
 
-    # Build psql command
+    # Read the SQL file content
+    with open(sql_file_path, 'r', encoding='utf-8') as f:
+        sql_content = f.read()
+
+    # Build psql command - execute SQL directly instead of using -f flag
     cmd = [
         'psql',
         '-h', host,
         '-U', user,
         '-d', database,
         '-p', port,
-        '-f', sql_file_path
+        '-c', sql_content
     ]
 
     # Set password as environment variable
