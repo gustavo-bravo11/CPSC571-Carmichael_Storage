@@ -12,7 +12,7 @@ int main()
     // open the file "GFG.txt".
     std::ifstream file("new_table.txt");
 
-    std::ofstream output_file("imprimitive.txt");
+    std::ofstream output_file("divisors.txt");
     
     // String to store each line of the file.
     std::string line;
@@ -35,20 +35,25 @@ int main()
         while( std::getline(file, line) )
         {
             std::stringstream ss(line);
+            
+            // line is space separated
+            // so, v_nums[0] holds the carmichael number
+            // v_nums[i] for i > 0 holds the prime divisors of v_nums[0]
             while (getline(ss, temp_string, ' '))
             {
                 v.push_back(temp_string);
                 v_nums.push_back( mpz_class(temp_string, 10) );
             }
 
-            mpz_class divisor = 17*19*23;
             
-            if( 0 == v % divisor )
+            mpz_class divisor = 5717264681;
+            
+            if( 0 == v_nums[0] % divisor )
             {
                 output_file << line << std::endl;
             }
             
-            
+            /*
             bool good_line = true;
             bool only_primes = true;
             
@@ -77,6 +82,7 @@ int main()
             {
                 output_file << line << std::endl;
             }
+            */
 
             v.clear();
             v_nums.clear();
