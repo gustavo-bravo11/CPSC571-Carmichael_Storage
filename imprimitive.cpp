@@ -6,6 +6,10 @@
 
 #include <bits/stdc++.h>
 
+// compiled with
+// g++ imprimitive.cpp -lgmpxx -lgmp -O3
+
+
 int main()
 {
     // Create an input file stream object named 'file' and
