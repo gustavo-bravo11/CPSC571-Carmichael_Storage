@@ -1,0 +1,902 @@
+                                                                        QUERY PLAN                                                                         
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..7220671.02 rows=5249903 width=14) (actual time=115.551..33771.090 rows=5405163.00 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   Buffers: shared hit=268 read=5078029 dirtied=45633
+   ->  Parallel Append  (cost=0.00..6694680.72 rows=2187457 width=14) (actual time=148.937..33367.963 rows=1801721.00 loops=3)
+         Buffers: shared hit=268 read=5078029 dirtied=45633
+         ->  Seq Scan on carmichael_number_13  (cost=0.00..518.95 rows=627 width=15) (actual time=165.901..184.072 rows=616.00 loops=1)
+               Filter: (factors @> '{5}'::bigint[])
+               Rows Removed by Filter: 14712
+               Buffers: shared hit=134 read=327 dirtied=8
+         ->  Seq Scan on carmichael_number_14  (cost=0.00..2.76 rows=1 width=15) (actual time=165.753..165.767 rows=1.00 loops=1)
+               Filter: (factors @> '{5}'::bigint[])
+               Rows Removed by Filter: 60
+               Buffers: shared hit=134 read=2
+         ->  Parallel Seq Scan on carmichael_number_8  (cost=0.00..2148714.95 rows=649308 width=14) (actual time=2.432..31304.858 rows=1649089.00 loops=1)
+               Filter: (factors @> '{5}'::bigint[])
+               Rows Removed by Filter: 97820777
+               Buffers: shared read=1630650 dirtied=6417
+         ->  Parallel Seq Scan on carmichael_number_9  (cost=0.00..1819368.08 rows=680962 width=14) (actual time=3.660..26923.404 rows=1687401.00 loops=1)
+               Filter: (factors @> '{5}'::bigint[])
+               Rows Removed by Filter: 79354094
+               Buffers: shared read=1397284
+         ->  Parallel Seq Scan on carmichael_number_7  (cost=0.00..1283690.81 rows=317756 width=14) (actual time=6.034..6664.314 rows=266198.00 loops=3)
+               Filter: (factors @> '{5}'::bigint[])
+               Rows Removed by Filter: 20513468
+               Buffers: shared read=959008 dirtied=34208
+         ->  Parallel Seq Scan on carmichael_number_10  (cost=0.00..776579.01 rows=361034 width=14) (actual time=3.868..11433.464 rows=849567.00 loops=1)
+               Filter: (factors @> '{5}'::bigint[])
+               Rows Removed by Filter: 32349527
+               Buffers: shared read=603670
+         ->  Parallel Seq Scan on carmichael_number_6  (cost=0.00..383280.10 rows=74841 width=14) (actual time=3.269..5508.516 rows=182341.00 loops=1)
+               Filter: (factors @> '{5}'::bigint[])
+               Rows Removed by Filter: 19482853
+               Buffers: shared read=280852 dirtied=1822
+         ->  Parallel Seq Scan on carmichael_number_11  (cost=0.00..159648.81 rows=83626 width=14) (actual time=3.423..2411.392 rows=200121.00 loops=1)
+               Filter: (factors @> '{5}'::bigint[])
+               Rows Removed by Filter: 6329800
+               Buffers: shared read=125636 dirtied=2607
+         ->  Parallel Seq Scan on carmichael_number_5  (cost=0.00..63528.63 rows=8330 width=14) (actual time=0.445..868.119 rows=17500.00 loops=1)
+               Filter: (factors @> '{5}'::bigint[])
+               Rows Removed by Filter: 3411890
+               Buffers: shared read=45678 dirtied=239
+         ->  Parallel Seq Scan on carmichael_number_3  (cost=0.00..24757.92 rows=3113 width=14) (actual time=5.017..210.146 rows=3.00 loops=1)
+               Filter: (factors @> '{5}'::bigint[])
+               Rows Removed by Filter: 1494735
+               Buffers: shared read=16975 dirtied=128
+         ->  Parallel Seq Scan on carmichael_number_12  (cost=0.00..14047.64 rows=8173 width=14) (actual time=0.430..191.638 rows=19682.00 loops=1)
+               Filter: (factors @> '{5}'::bigint[])
+               Rows Removed by Filter: 527908
+               Buffers: shared read=11194 dirtied=168
+         ->  Parallel Seq Scan on carmichael_number_4  (cost=0.00..9608.54 rows=53 width=14) (actual time=115.153..187.423 rows=248.00 loops=1)
+               Filter: (factors @> '{5}'::bigint[])
+               Rows Removed by Filter: 548017
+               Buffers: shared read=6753 dirtied=36
+ Planning:
+   Buffers: shared hit=303 read=32 dirtied=13
+ Planning Time: 5.901 ms
+ JIT:
+   Functions: 144
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+   Timing: Generation 3.665 ms (Deform 1.757 ms), Inlining 112.406 ms, Optimization 191.610 ms, Emission 140.340 ms, Total 448.021 ms
+ Execution Time: 34129.495 ms
+(62 rows)
+
+                                                                       QUERY PLAN                                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..6695141.64 rows=101860 width=14) (actual time=430.889..15555.139 rows=7.00 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   Buffers: shared hit=1133245 read=3945052
+   ->  Parallel Append  (cost=0.00..6683955.64 rows=42440 width=14) (actual time=9655.371..15520.838 rows=2.33 loops=3)
+         Buffers: shared hit=1133245 read=3945052
+         ->  Seq Scan on carmichael_number_13  (cost=0.00..518.95 rows=7 width=15) (actual time=168.840..168.841 rows=0.00 loops=1)
+               Filter: (factors @> '{14348909}'::bigint[])
+               Rows Removed by Filter: 15328
+               Buffers: shared hit=461
+         ->  Seq Scan on carmichael_number_14  (cost=0.00..2.76 rows=1 width=15) (actual time=164.890..164.890 rows=0.00 loops=1)
+               Filter: (factors @> '{14348909}'::bigint[])
+               Rows Removed by Filter: 61
+               Buffers: shared hit=136
+         ->  Parallel Seq Scan on carmichael_number_8  (cost=0.00..2148714.95 rows=11743 width=14) (actual time=5316.479..5316.479 rows=0.00 loops=3)
+               Filter: (factors @> '{14348909}'::bigint[])
+               Rows Removed by Filter: 33156622
+               Buffers: shared hit=6420 read=1624230
+         ->  Parallel Seq Scan on carmichael_number_9  (cost=0.00..1819368.08 rows=10130 width=14) (actual time=12719.864..12719.864 rows=0.00 loops=1)
+               Filter: (factors @> '{14348909}'::bigint[])
+               Rows Removed by Filter: 81041495
+               Buffers: shared hit=288 read=1396996
+         ->  Parallel Seq Scan on carmichael_number_7  (cost=0.00..1283690.81 rows=8658 width=14) (actual time=1508.784..4435.868 rows=1.50 loops=2)
+               Filter: (factors @> '{14348909}'::bigint[])
+               Rows Removed by Filter: 31169497
+               Buffers: shared hit=35182 read=923826
+         ->  Parallel Seq Scan on carmichael_number_10  (cost=0.00..776579.01 rows=4380 width=14) (actual time=4546.680..4546.680 rows=0.00 loops=1)
+               Filter: (factors @> '{14348909}'::bigint[])
+               Rows Removed by Filter: 33199094
+               Buffers: shared hit=603670
+         ->  Parallel Seq Scan on carmichael_number_6  (cost=0.00..383280.10 rows=2868 width=14) (actual time=425.312..2342.532 rows=3.00 loops=1)
+               Filter: (factors @> '{14348909}'::bigint[])
+               Rows Removed by Filter: 19665191
+               Buffers: shared hit=280852
+         ->  Parallel Seq Scan on carmichael_number_11  (cost=0.00..159648.81 rows=952 width=14) (actual time=972.219..972.219 rows=0.00 loops=1)
+               Filter: (factors @> '{14348909}'::bigint[])
+               Rows Removed by Filter: 6529921
+               Buffers: shared hit=125636
+         ->  Parallel Seq Scan on carmichael_number_5  (cost=0.00..63528.63 rows=452 width=14) (actual time=391.436..391.436 rows=0.00 loops=1)
+               Filter: (factors @> '{14348909}'::bigint[])
+               Rows Removed by Filter: 3429390
+               Buffers: shared hit=45678
+         ->  Parallel Seq Scan on carmichael_number_3  (cost=0.00..24757.92 rows=3113 width=14) (actual time=147.638..152.327 rows=1.00 loops=1)
+               Filter: (factors @> '{14348909}'::bigint[])
+               Rows Removed by Filter: 1494737
+               Buffers: shared hit=16975
+         ->  Parallel Seq Scan on carmichael_number_12  (cost=0.00..14047.64 rows=88 width=14) (actual time=82.834..82.834 rows=0.00 loops=1)
+               Filter: (factors @> '{14348909}'::bigint[])
+               Rows Removed by Filter: 547590
+               Buffers: shared hit=11194
+         ->  Parallel Seq Scan on carmichael_number_4  (cost=0.00..9608.54 rows=53 width=14) (actual time=199.676..199.676 rows=0.00 loops=1)
+               Filter: (factors @> '{14348909}'::bigint[])
+               Rows Removed by Filter: 548265
+               Buffers: shared hit=6753
+ Planning Time: 0.609 ms
+ JIT:
+   Functions: 144
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+   Timing: Generation 4.546 ms (Deform 2.045 ms), Inlining 116.566 ms, Optimization 214.249 ms, Emission 140.306 ms, Total 475.667 ms
+ Execution Time: 15557.104 ms
+(60 rows)
+
+                                                                        QUERY PLAN                                                                         
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+ Append  (cost=1000.00..7487194.68 rows=8059470 width=14) (actual time=164.127..17474.879 rows=6440986.00 loops=1)
+   Buffers: shared hit=1136849 read=3943324
+   ->  Gather  (cost=1000.00..25761.62 rows=37 width=14) (actual time=163.728..163.839 rows=0.00 loops=1)
+         Workers Planned: 2
+         Workers Launched: 2
+         Buffers: shared hit=17243
+         ->  Parallel Seq Scan on carmichael_number_3  (cost=0.00..24757.92 rows=15 width=14) (actual time=142.986..142.986 rows=0.00 loops=3)
+               Filter: (factors @> '{11,13}'::bigint[])
+               Rows Removed by Filter: 498246
+               Buffers: shared hit=17243
+   ->  Gather  (cost=1000.00..10608.84 rows=3 width=14) (actual time=0.397..99.327 rows=5.00 loops=1)
+         Workers Planned: 2
+         Workers Launched: 2
+         Buffers: shared hit=7021
+         ->  Parallel Seq Scan on carmichael_number_4  (cost=0.00..9608.54 rows=1 width=14) (actual time=44.846..64.234 rows=1.67 loops=3)
+               Filter: (factors @> '{11,13}'::bigint[])
+               Rows Removed by Filter: 182753
+               Buffers: shared hit=7021
+   ->  Gather  (cost=1000.00..64674.33 rows=1457 width=14) (actual time=0.430..202.785 rows=652.00 loops=1)
+         Workers Planned: 2
+         Workers Launched: 2
+         Buffers: shared hit=45946
+         ->  Parallel Seq Scan on carmichael_number_5  (cost=0.00..63528.63 rows=607 width=14) (actual time=45.145..181.660 rows=217.33 loops=3)
+               Filter: (factors @> '{11,13}'::bigint[])
+               Rows Removed by Filter: 1142913
+               Buffers: shared hit=45946
+   ->  Gather  (cost=1000.00..388380.80 rows=41007 width=14) (actual time=0.375..864.081 rows=24354.00 loops=1)
+         Workers Planned: 2
+         Workers Launched: 2
+         Buffers: shared hit=281120
+         ->  Parallel Seq Scan on carmichael_number_6  (cost=0.00..383280.10 rows=17086 width=14) (actual time=44.853..843.213 rows=8118.00 loops=3)
+               Filter: (factors @> '{11,13}'::bigint[])
+               Rows Removed by Filter: 6546947
+               Buffers: shared hit=281120
+   ->  Gather  (cost=1000.00..1321274.71 rows=365839 width=14) (actual time=0.545..3041.265 rows=261564.00 loops=1)
+         Workers Planned: 2
+         Workers Launched: 2
+         Buffers: shared hit=36026 read=923250
+         ->  Parallel Seq Scan on carmichael_number_7  (cost=0.00..1283690.81 rows=152433 width=14) (actual time=46.004..3026.455 rows=87188.00 loops=3)
+               Filter: (factors @> '{11,13}'::bigint[])
+               Rows Removed by Filter: 20692478
+               Buffers: shared hit=36026 read=923250
+   ->  Gather  (cost=1000.00..2305614.85 rows=1558999 width=14) (actual time=0.563..5524.542 rows=1138270.00 loops=1)
+         Workers Planned: 2
+         Workers Launched: 2
+         Buffers: shared hit=7552 read=1623366
+         ->  Parallel Seq Scan on carmichael_number_8  (cost=0.00..2148714.95 rows=649583 width=14) (actual time=46.072..5530.196 rows=379423.33 loops=3)
+               Filter: (factors @> '{11,13}'::bigint[])
+               Rows Removed by Filter: 32777199
+               Buffers: shared hit=7552 read=1623366
+   ->  Gather  (cost=1000.00..2097148.18 rows=2767801 width=14) (actual time=0.544..4315.532 rows=2194341.00 loops=1)
+         Workers Planned: 2
+         Workers Launched: 2
+         Buffers: shared hit=844 read=1396708
+         ->  Parallel Seq Scan on carmichael_number_9  (cost=0.00..1819368.08 rows=1153250 width=14) (actual time=46.079..4348.525 rows=731447.00 loops=3)
+               Filter: (factors @> '{11,13}'::bigint[])
+               Rows Removed by Filter: 26282385
+               Buffers: shared hit=844 read=1396708
+   ->  Gather  (cost=1000.00..1007602.81 rows=2300238 width=14) (actual time=0.379..1695.837 rows=1936901.00 loops=1)
+         Workers Planned: 2
+         Workers Launched: 2
+         Buffers: shared hit=603938
+         ->  Parallel Seq Scan on carmichael_number_10  (cost=0.00..776579.01 rows=958432 width=14) (actual time=44.935..1721.834 rows=645633.67 loops=3)
+               Filter: (factors @> '{11,13}'::bigint[])
+               Rows Removed by Filter: 10420731
+               Buffers: shared hit=603938
+   ->  Seq Scan on carmichael_number_11  (cost=0.00..207266.74 rows=885847 width=14) (actual time=0.032..1021.454 rows=759202.00 loops=1)
+         Filter: (factors @> '{11,13}'::bigint[])
+         Rows Removed by Filter: 5770719
+         Buffers: shared hit=125636
+   ->  Seq Scan on carmichael_number_12  (cost=0.00..18042.74 rows=131940 width=14) (actual time=0.027..91.676 rows=119694.00 loops=1)
+         Filter: (factors @> '{11,13}'::bigint[])
+         Rows Removed by Filter: 427896
+         Buffers: shared hit=11194
+   ->  Seq Scan on carmichael_number_13  (cost=0.00..518.95 rows=6263 width=15) (actual time=0.026..2.831 rows=5965.00 loops=1)
+         Filter: (factors @> '{11,13}'::bigint[])
+         Rows Removed by Filter: 9363
+         Buffers: shared hit=327
+   ->  Seq Scan on carmichael_number_14  (cost=0.00..2.76 rows=39 width=15) (actual time=0.015..0.025 rows=38.00 loops=1)
+         Filter: (factors @> '{11,13}'::bigint[])
+         Rows Removed by Filter: 23
+         Buffers: shared hit=2
+ Planning Time: 0.342 ms
+ JIT:
+   Functions: 112
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+   Timing: Generation 5.062 ms (Deform 1.678 ms), Inlining 871.347 ms, Optimization 183.142 ms, Emission 141.362 ms, Total 1200.914 ms
+ Execution Time: 17722.589 ms
+(88 rows)
+
+                                                                     QUERY PLAN                                                                     
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..6684750.59 rows=70 width=14) (actual time=9777.705..15444.936 rows=2.00 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   Buffers: shared hit=1137565 read=3940732
+   ->  Parallel Append  (cost=0.00..6683743.59 rows=31 width=14) (actual time=13523.849..15407.587 rows=0.67 loops=3)
+         Buffers: shared hit=1137565 read=3940732
+         ->  Seq Scan on carmichael_number_13  (cost=0.00..518.95 rows=1 width=15) (actual time=168.339..168.339 rows=0.00 loops=1)
+               Filter: (factors @> '{21871,21881}'::bigint[])
+               Rows Removed by Filter: 15328
+               Buffers: shared hit=461
+         ->  Seq Scan on carmichael_number_14  (cost=0.00..2.76 rows=1 width=15) (actual time=164.841..164.841 rows=0.00 loops=1)
+               Filter: (factors @> '{21871,21881}'::bigint[])
+               Rows Removed by Filter: 61
+               Buffers: shared hit=136
+         ->  Parallel Seq Scan on carmichael_number_8  (cost=0.00..2148714.95 rows=3 width=14) (actual time=5320.704..5320.704 rows=0.00 loops=3)
+               Filter: (factors @> '{21871,21881}'::bigint[])
+               Rows Removed by Filter: 33156622
+               Buffers: shared hit=8148 read=1622502
+         ->  Parallel Seq Scan on carmichael_number_9  (cost=0.00..1819368.08 rows=3 width=14) (actual time=12590.033..12590.033 rows=0.00 loops=1)
+               Filter: (factors @> '{21871,21881}'::bigint[])
+               Rows Removed by Filter: 81041495
+               Buffers: shared hit=1440 read=1395844
+         ->  Parallel Seq Scan on carmichael_number_7  (cost=0.00..1283690.81 rows=3 width=14) (actual time=1720.944..4364.015 rows=1.00 loops=2)
+               Filter: (factors @> '{21871,21881}'::bigint[])
+               Rows Removed by Filter: 31169498
+               Buffers: shared hit=36622 read=922386
+         ->  Parallel Seq Scan on carmichael_number_10  (cost=0.00..776579.01 rows=1 width=14) (actual time=4535.162..4535.162 rows=0.00 loops=1)
+               Filter: (factors @> '{21871,21881}'::bigint[])
+               Rows Removed by Filter: 33199094
+               Buffers: shared hit=603670
+         ->  Parallel Seq Scan on carmichael_number_6  (cost=0.00..383280.10 rows=1 width=14) (actual time=2304.690..2304.691 rows=0.00 loops=1)
+               Filter: (factors @> '{21871,21881}'::bigint[])
+               Rows Removed by Filter: 19665194
+               Buffers: shared hit=280852
+         ->  Parallel Seq Scan on carmichael_number_11  (cost=0.00..159648.81 rows=1 width=14) (actual time=965.518..965.518 rows=0.00 loops=1)
+               Filter: (factors @> '{21871,21881}'::bigint[])
+               Rows Removed by Filter: 6529921
+               Buffers: shared hit=125636
+         ->  Parallel Seq Scan on carmichael_number_5  (cost=0.00..63528.63 rows=1 width=14) (actual time=394.621..394.621 rows=0.00 loops=1)
+               Filter: (factors @> '{21871,21881}'::bigint[])
+               Rows Removed by Filter: 3429390
+               Buffers: shared hit=45678
+         ->  Parallel Seq Scan on carmichael_number_3  (cost=0.00..24757.92 rows=15 width=14) (actual time=152.388..152.388 rows=0.00 loops=1)
+               Filter: (factors @> '{21871,21881}'::bigint[])
+               Rows Removed by Filter: 1494738
+               Buffers: shared hit=16975
+         ->  Parallel Seq Scan on carmichael_number_12  (cost=0.00..14047.64 rows=1 width=14) (actual time=83.407..83.408 rows=0.00 loops=1)
+               Filter: (factors @> '{21871,21881}'::bigint[])
+               Rows Removed by Filter: 547590
+               Buffers: shared hit=11194
+         ->  Parallel Seq Scan on carmichael_number_4  (cost=0.00..9608.54 rows=1 width=14) (actual time=173.585..173.585 rows=0.00 loops=1)
+               Filter: (factors @> '{21871,21881}'::bigint[])
+               Rows Removed by Filter: 548265
+               Buffers: shared hit=6753
+ Planning Time: 0.339 ms
+ JIT:
+   Functions: 144
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+   Timing: Generation 3.688 ms (Deform 1.694 ms), Inlining 111.971 ms, Optimization 192.284 ms, Emission 139.974 ms, Total 447.917 ms
+ Execution Time: 15446.157 ms
+(60 rows)
+
+                                                                        QUERY PLAN                                                                        
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..6878848.16 rows=1901434 width=14) (actual time=115.504..16044.662 rows=1079316.00 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   Buffers: shared hit=1139293 read=3939004
+   ->  Parallel Append  (cost=0.00..6687704.76 rows=792265 width=14) (actual time=149.151..15676.476 rows=359772.00 loops=3)
+         Buffers: shared hit=1139293 read=3939004
+         ->  Seq Scan on carmichael_number_13  (cost=0.00..518.95 rows=4674 width=15) (actual time=166.303..170.540 rows=4093.00 loops=1)
+               Filter: (factors @> '{11,13,17}'::bigint[])
+               Rows Removed by Filter: 11235
+               Buffers: shared hit=461
+         ->  Seq Scan on carmichael_number_14  (cost=0.00..2.76 rows=37 width=15) (actual time=166.058..166.069 rows=36.00 loops=1)
+               Filter: (factors @> '{11,13,17}'::bigint[])
+               Rows Removed by Filter: 25
+               Buffers: shared hit=136
+         ->  Parallel Seq Scan on carmichael_number_8  (cost=0.00..2148714.95 rows=84944 width=14) (actual time=0.775..5349.740 rows=30441.00 loops=3)
+               Filter: (factors @> '{11,13,17}'::bigint[])
+               Rows Removed by Filter: 33126181
+               Buffers: shared hit=9012 read=1621638
+         ->  Parallel Seq Scan on carmichael_number_9  (cost=0.00..1819368.08 rows=228959 width=14) (actual time=0.210..12787.797 rows=279198.00 loops=1)
+               Filter: (factors @> '{11,13,17}'::bigint[])
+               Rows Removed by Filter: 80762297
+               Buffers: shared hit=1728 read=1395556
+         ->  Parallel Seq Scan on carmichael_number_7  (cost=0.00..1283690.81 rows=12296 width=14) (actual time=0.277..4399.187 rows=6804.00 loops=2)
+               Filter: (factors @> '{11,13,17}'::bigint[])
+               Rows Removed by Filter: 31162694
+               Buffers: shared hit=37198 read=921810
+         ->  Parallel Seq Scan on carmichael_number_10  (cost=0.00..776579.01 rows=280661 width=14) (actual time=0.038..4780.731 rows=392250.00 loops=1)
+               Filter: (factors @> '{11,13,17}'::bigint[])
+               Rows Removed by Filter: 32806844
+               Buffers: shared hit=603670
+         ->  Parallel Seq Scan on carmichael_number_6  (cost=0.00..383280.10 rows=767 width=14) (actual time=0.023..2340.014 rows=932.00 loops=1)
+               Filter: (factors @> '{11,13,17}'::bigint[])
+               Rows Removed by Filter: 19664262
+               Buffers: shared hit=280852
+         ->  Parallel Seq Scan on carmichael_number_11  (cost=0.00..159648.81 rows=151098 width=14) (actual time=0.021..1040.232 rows=239680.00 loops=1)
+               Filter: (factors @> '{11,13,17}'::bigint[])
+               Rows Removed by Filter: 6290241
+               Buffers: shared hit=125636
+         ->  Parallel Seq Scan on carmichael_number_5  (cost=0.00..63528.63 rows=12 width=14) (actual time=0.023..388.482 rows=11.00 loops=1)
+               Filter: (factors @> '{11,13,17}'::bigint[])
+               Rows Removed by Filter: 3429379
+               Buffers: shared hit=45678
+         ->  Parallel Seq Scan on carmichael_number_3  (cost=0.00..24757.92 rows=1 width=14) (actual time=154.512..154.512 rows=0.00 loops=1)
+               Filter: (factors @> '{11,13,17}'::bigint[])
+               Rows Removed by Filter: 1494738
+               Buffers: shared hit=16975
+         ->  Parallel Seq Scan on carmichael_number_12  (cost=0.00..14047.64 rows=31563 width=14) (actual time=0.029..91.729 rows=58183.00 loops=1)
+               Filter: (factors @> '{11,13,17}'::bigint[])
+               Rows Removed by Filter: 489407
+               Buffers: shared hit=11194
+         ->  Parallel Seq Scan on carmichael_number_4  (cost=0.00..9608.54 rows=1 width=14) (actual time=115.089..172.606 rows=2.00 loops=1)
+               Filter: (factors @> '{11,13,17}'::bigint[])
+               Rows Removed by Filter: 548263
+               Buffers: shared hit=6753
+ Planning Time: 0.378 ms
+ JIT:
+   Functions: 144
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+   Timing: Generation 3.675 ms (Deform 1.724 ms), Inlining 113.639 ms, Optimization 192.710 ms, Emission 140.448 ms, Total 450.472 ms
+ Execution Time: 16088.577 ms
+(60 rows)
+
+                                                                      QUERY PLAN                                                                      
+------------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..6688068.80 rows=32575 width=14) (actual time=174.356..15649.533 rows=15054.00 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   Buffers: shared hit=1141021 read=3937276
+   ->  Parallel Append  (cost=0.00..6683811.30 rows=13573 width=14) (actual time=170.317..15614.012 rows=5018.00 loops=3)
+         Buffers: shared hit=1141021 read=3937276
+         ->  Seq Scan on carmichael_number_13  (cost=0.00..518.95 rows=8 width=15) (actual time=167.183..169.591 rows=3.00 loops=1)
+               Filter: (factors @> '{271,277,281}'::bigint[])
+               Rows Removed by Filter: 15325
+               Buffers: shared hit=461
+         ->  Seq Scan on carmichael_number_14  (cost=0.00..2.76 rows=1 width=15) (actual time=164.880..164.880 rows=0.00 loops=1)
+               Filter: (factors @> '{271,277,281}'::bigint[])
+               Rows Removed by Filter: 61
+               Buffers: shared hit=136
+         ->  Parallel Seq Scan on carmichael_number_8  (cost=0.00..2148714.95 rows=2841 width=14) (actual time=24.344..5359.820 rows=1024.67 loops=3)
+               Filter: (factors @> '{271,277,281}'::bigint[])
+               Rows Removed by Filter: 33155597
+               Buffers: shared hit=9876 read=1620774
+         ->  Parallel Seq Scan on carmichael_number_9  (cost=0.00..1819368.08 rows=5439 width=14) (actual time=4.950..12759.201 rows=5811.00 loops=1)
+               Filter: (factors @> '{271,277,281}'::bigint[])
+               Rows Removed by Filter: 81035684
+               Buffers: shared hit=2016 read=1395268
+         ->  Parallel Seq Scan on carmichael_number_7  (cost=0.00..1283690.81 rows=709 width=14) (actual time=3.551..4416.268 rows=310.50 loops=2)
+               Filter: (factors @> '{271,277,281}'::bigint[])
+               Rows Removed by Filter: 31169188
+               Buffers: shared hit=37774 read=921234
+         ->  Parallel Seq Scan on carmichael_number_10  (cost=0.00..776579.01 rows=3309 width=14) (actual time=2.001..4659.971 rows=4212.00 loops=1)
+               Filter: (factors @> '{271,277,281}'::bigint[])
+               Rows Removed by Filter: 33194882
+               Buffers: shared hit=603670
+         ->  Parallel Seq Scan on carmichael_number_6  (cost=0.00..383280.10 rows=73 width=14) (actual time=95.107..2373.049 rows=28.00 loops=1)
+               Filter: (factors @> '{271,277,281}'::bigint[])
+               Rows Removed by Filter: 19665166
+               Buffers: shared hit=280852
+         ->  Parallel Seq Scan on carmichael_number_11  (cost=0.00..159648.81 rows=1088 width=14) (actual time=1.512..998.941 rows=1183.00 loops=1)
+               Filter: (factors @> '{271,277,281}'::bigint[])
+               Rows Removed by Filter: 6528738
+               Buffers: shared hit=125636
+         ->  Parallel Seq Scan on carmichael_number_5  (cost=0.00..63528.63 rows=2 width=14) (actual time=226.073..391.081 rows=1.00 loops=1)
+               Filter: (factors @> '{271,277,281}'::bigint[])
+               Rows Removed by Filter: 3429389
+               Buffers: shared hit=45678
+         ->  Parallel Seq Scan on carmichael_number_3  (cost=0.00..24757.92 rows=1 width=14) (actual time=152.155..152.155 rows=0.00 loops=1)
+               Filter: (factors @> '{271,277,281}'::bigint[])
+               Rows Removed by Filter: 1494738
+               Buffers: shared hit=16975
+         ->  Parallel Seq Scan on carmichael_number_12  (cost=0.00..14047.64 rows=107 width=14) (actual time=0.838..84.915 rows=121.00 loops=1)
+               Filter: (factors @> '{271,277,281}'::bigint[])
+               Rows Removed by Filter: 547469
+               Buffers: shared hit=11194
+         ->  Parallel Seq Scan on carmichael_number_4  (cost=0.00..9608.54 rows=1 width=14) (actual time=173.094..173.094 rows=0.00 loops=1)
+               Filter: (factors @> '{271,277,281}'::bigint[])
+               Rows Removed by Filter: 548265
+               Buffers: shared hit=6753
+ Planning Time: 0.362 ms
+ JIT:
+   Functions: 144
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+   Timing: Generation 3.664 ms (Deform 1.709 ms), Inlining 112.963 ms, Optimization 192.421 ms, Emission 140.035 ms, Total 449.084 ms
+ Execution Time: 15651.678 ms
+(60 rows)
+
+                                                                       QUERY PLAN                                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..6720654.58 rows=594309 width=14) (actual time=164.638..16345.718 rows=232050.00 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   Buffers: shared hit=1125774 read=3935548
+   ->  Parallel Append  (cost=0.00..6660223.68 rows=247632 width=14) (actual time=158.971..15846.579 rows=77350.00 loops=3)
+         Buffers: shared hit=1125774 read=3935548
+         ->  Seq Scan on carmichael_number_13  (cost=0.00..518.95 rows=2150 width=15) (actual time=156.031..160.218 rows=1647.00 loops=1)
+               Filter: (factors @> '{29,31,37,41}'::bigint[])
+               Rows Removed by Filter: 13681
+               Buffers: shared hit=461
+         ->  Seq Scan on carmichael_number_14  (cost=0.00..2.76 rows=23 width=15) (actual time=156.651..156.665 rows=22.00 loops=1)
+               Filter: (factors @> '{29,31,37,41}'::bigint[])
+               Rows Removed by Filter: 39
+               Buffers: shared hit=136
+         ->  Parallel Seq Scan on carmichael_number_8  (cost=0.00..2148714.95 rows=18240 width=14) (actual time=4.305..5557.873 rows=2684.00 loops=3)
+               Filter: (factors @> '{29,31,37,41}'::bigint[])
+               Rows Removed by Filter: 33153938
+               Buffers: shared hit=10740 read=1619910
+         ->  Parallel Seq Scan on carmichael_number_9  (cost=0.00..1819368.08 rows=64578 width=14) (actual time=0.161..12948.308 rows=42555.00 loops=1)
+               Filter: (factors @> '{29,31,37,41}'::bigint[])
+               Rows Removed by Filter: 80998940
+               Buffers: shared hit=2304 read=1394980
+         ->  Parallel Seq Scan on carmichael_number_7  (cost=0.00..1283690.81 rows=2015 width=14) (actual time=27.963..4348.006 rows=295.00 loops=2)
+               Filter: (factors @> '{29,31,37,41}'::bigint[])
+               Rows Removed by Filter: 31169204
+               Buffers: shared hit=38350 read=920658
+         ->  Parallel Seq Scan on carmichael_number_10  (cost=0.00..776579.01 rows=93160 width=14) (actual time=0.028..4809.744 rows=89060.00 loops=1)
+               Filter: (factors @> '{29,31,37,41}'::bigint[])
+               Rows Removed by Filter: 33110034
+               Buffers: shared hit=603670
+         ->  Parallel Seq Scan on carmichael_number_6  (cost=0.00..383280.10 rows=84 width=14) (actual time=0.396..2368.553 rows=12.00 loops=1)
+               Filter: (factors @> '{29,31,37,41}'::bigint[])
+               Rows Removed by Filter: 19665182
+               Buffers: shared hit=280852
+         ->  Parallel Seq Scan on carmichael_number_11  (cost=0.00..159648.81 rows=55857 width=14) (actual time=0.025..1056.440 rows=70277.00 loops=1)
+               Filter: (factors @> '{29,31,37,41}'::bigint[])
+               Rows Removed by Filter: 6459644
+               Buffers: shared hit=125636
+         ->  Parallel Seq Scan on carmichael_number_5  (cost=0.00..63528.63 rows=1 width=14) (actual time=390.560..390.560 rows=0.00 loops=1)
+               Filter: (factors @> '{29,31,37,41}'::bigint[])
+               Rows Removed by Filter: 3429390
+               Buffers: shared hit=45678
+         ->  Parallel Seq Scan on carmichael_number_12  (cost=0.00..14047.64 rows=12790 width=14) (actual time=0.036..94.109 rows=19835.00 loops=1)
+               Filter: (factors @> '{29,31,37,41}'::bigint[])
+               Rows Removed by Filter: 527755
+               Buffers: shared hit=11194
+         ->  Parallel Seq Scan on carmichael_number_4  (cost=0.00..9608.54 rows=1 width=14) (actual time=164.191..164.191 rows=0.00 loops=1)
+               Filter: (factors @> '{29,31,37,41}'::bigint[])
+               Rows Removed by Filter: 548265
+               Buffers: shared hit=6753
+ Planning Time: 0.346 ms
+ JIT:
+   Functions: 132
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+   Timing: Generation 3.359 ms (Deform 1.530 ms), Inlining 112.925 ms, Optimization 176.595 ms, Emission 128.957 ms, Total 421.836 ms
+ Execution Time: 16356.950 ms
+(56 rows)
+
+                                                                     QUERY PLAN                                                                     
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..6660269.31 rows=2780 width=14) (actual time=167.386..15352.373 rows=1154.00 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   Buffers: shared hit=1127502 read=3933820
+   ->  Parallel Append  (cost=0.00..6658991.31 rows=1158 width=14) (actual time=162.242..15316.529 rows=384.67 loops=3)
+         Buffers: shared hit=1127502 read=3933820
+         ->  Seq Scan on carmichael_number_13  (cost=0.00..518.95 rows=3 width=15) (actual time=158.268..160.147 rows=2.00 loops=1)
+               Filter: (factors @> '{107,109,113,127}'::bigint[])
+               Rows Removed by Filter: 15326
+               Buffers: shared hit=461
+         ->  Seq Scan on carmichael_number_14  (cost=0.00..2.76 rows=1 width=15) (actual time=155.423..155.423 rows=0.00 loops=1)
+               Filter: (factors @> '{107,109,113,127}'::bigint[])
+               Rows Removed by Filter: 61
+               Buffers: shared hit=136
+         ->  Parallel Seq Scan on carmichael_number_8  (cost=0.00..2148714.95 rows=165 width=14) (actual time=156.883..5280.443 rows=34.00 loops=3)
+               Filter: (factors @> '{107,109,113,127}'::bigint[])
+               Rows Removed by Filter: 33156588
+               Buffers: shared hit=11604 read=1619046
+         ->  Parallel Seq Scan on carmichael_number_9  (cost=0.00..1819368.08 rows=399 width=14) (actual time=6.068..12662.229 rows=354.00 loops=1)
+               Filter: (factors @> '{107,109,113,127}'::bigint[])
+               Rows Removed by Filter: 81041141
+               Buffers: shared hit=2592 read=1394692
+         ->  Parallel Seq Scan on carmichael_number_7  (cost=0.00..1283690.81 rows=23 width=14) (actual time=543.011..4320.758 rows=4.50 loops=2)
+               Filter: (factors @> '{107,109,113,127}'::bigint[])
+               Rows Removed by Filter: 31169494
+               Buffers: shared hit=38926 read=920082
+         ->  Parallel Seq Scan on carmichael_number_10  (cost=0.00..776579.01 rows=377 width=14) (actual time=3.678..4560.550 rows=438.00 loops=1)
+               Filter: (factors @> '{107,109,113,127}'::bigint[])
+               Rows Removed by Filter: 33198656
+               Buffers: shared hit=603670
+         ->  Parallel Seq Scan on carmichael_number_6  (cost=0.00..383280.10 rows=1 width=14) (actual time=2319.135..2319.135 rows=0.00 loops=1)
+               Filter: (factors @> '{107,109,113,127}'::bigint[])
+               Rows Removed by Filter: 19665194
+               Buffers: shared hit=280852
+         ->  Parallel Seq Scan on carmichael_number_11  (cost=0.00..159648.81 rows=165 width=14) (actual time=1.570..970.232 rows=210.00 loops=1)
+               Filter: (factors @> '{107,109,113,127}'::bigint[])
+               Rows Removed by Filter: 6529711
+               Buffers: shared hit=125636
+         ->  Parallel Seq Scan on carmichael_number_5  (cost=0.00..63528.63 rows=1 width=14) (actual time=391.707..391.707 rows=0.00 loops=1)
+               Filter: (factors @> '{107,109,113,127}'::bigint[])
+               Rows Removed by Filter: 3429390
+               Buffers: shared hit=45678
+         ->  Parallel Seq Scan on carmichael_number_12  (cost=0.00..14047.64 rows=25 width=14) (actual time=3.023..82.844 rows=39.00 loops=1)
+               Filter: (factors @> '{107,109,113,127}'::bigint[])
+               Rows Removed by Filter: 547551
+               Buffers: shared hit=11194
+         ->  Parallel Seq Scan on carmichael_number_4  (cost=0.00..9608.54 rows=1 width=14) (actual time=163.937..163.937 rows=0.00 loops=1)
+               Filter: (factors @> '{107,109,113,127}'::bigint[])
+               Rows Removed by Filter: 548265
+               Buffers: shared hit=6753
+ Planning Time: 0.344 ms
+ JIT:
+   Functions: 132
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+   Timing: Generation 3.368 ms (Deform 1.524 ms), Inlining 112.498 ms, Optimization 176.401 ms, Emission 128.990 ms, Total 421.257 ms
+ Execution Time: 15353.657 ms
+(56 rows)
+
+                                                                     QUERY PLAN                                                                      
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..6650535.73 rows=1555 width=14) (actual time=109.390..15416.230 rows=198.00 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   Buffers: shared hit=1122477 read=3932092
+   ->  Parallel Append  (cost=0.00..6649380.23 rows=649 width=14) (actual time=189.505..15382.149 rows=66.00 loops=3)
+         Buffers: shared hit=1122477 read=3932092
+         ->  Seq Scan on carmichael_number_13  (cost=0.00..518.95 rows=2 width=15) (actual time=150.313..151.456 rows=1.00 loops=1)
+               Filter: (factors @> '{53,59,61,67,71}'::bigint[])
+               Rows Removed by Filter: 15327
+               Buffers: shared hit=461
+         ->  Seq Scan on carmichael_number_14  (cost=0.00..2.76 rows=1 width=15) (actual time=146.967..146.967 rows=0.00 loops=1)
+               Filter: (factors @> '{53,59,61,67,71}'::bigint[])
+               Rows Removed by Filter: 61
+               Buffers: shared hit=136
+         ->  Parallel Seq Scan on carmichael_number_8  (cost=0.00..2148714.95 rows=60 width=14) (actual time=1118.643..5314.356 rows=0.67 loops=3)
+               Filter: (factors @> '{53,59,61,67,71}'::bigint[])
+               Rows Removed by Filter: 33156621
+               Buffers: shared hit=12468 read=1618182
+         ->  Parallel Seq Scan on carmichael_number_9  (cost=0.00..1819368.08 rows=191 width=14) (actual time=162.246..12645.956 rows=36.00 loops=1)
+               Filter: (factors @> '{53,59,61,67,71}'::bigint[])
+               Rows Removed by Filter: 81041459
+               Buffers: shared hit=2880 read=1394404
+         ->  Parallel Seq Scan on carmichael_number_7  (cost=0.00..1283690.81 rows=6 width=14) (actual time=4359.406..4359.406 rows=0.00 loops=2)
+               Filter: (factors @> '{53,59,61,67,71}'::bigint[])
+               Rows Removed by Filter: 31169498
+               Buffers: shared hit=39502 read=919506
+         ->  Parallel Seq Scan on carmichael_number_10  (cost=0.00..776579.01 rows=251 width=14) (actual time=36.720..4629.535 rows=88.00 loops=1)
+               Filter: (factors @> '{53,59,61,67,71}'::bigint[])
+               Rows Removed by Filter: 33199006
+               Buffers: shared hit=603670
+         ->  Parallel Seq Scan on carmichael_number_6  (cost=0.00..383280.10 rows=1 width=14) (actual time=2331.699..2331.699 rows=0.00 loops=1)
+               Filter: (factors @> '{53,59,61,67,71}'::bigint[])
+               Rows Removed by Filter: 19665194
+               Buffers: shared hit=280852
+         ->  Parallel Seq Scan on carmichael_number_11  (cost=0.00..159648.81 rows=119 width=14) (actual time=3.987..1006.477 rows=64.00 loops=1)
+               Filter: (factors @> '{53,59,61,67,71}'::bigint[])
+               Rows Removed by Filter: 6529857
+               Buffers: shared hit=125636
+         ->  Parallel Seq Scan on carmichael_number_5  (cost=0.00..63528.63 rows=1 width=14) (actual time=389.468..389.468 rows=0.00 loops=1)
+               Filter: (factors @> '{53,59,61,67,71}'::bigint[])
+               Rows Removed by Filter: 3429390
+               Buffers: shared hit=45678
+         ->  Parallel Seq Scan on carmichael_number_12  (cost=0.00..14047.64 rows=19 width=14) (actual time=108.984..182.865 rows=7.00 loops=1)
+               Filter: (factors @> '{53,59,61,67,71}'::bigint[])
+               Rows Removed by Filter: 547583
+               Buffers: shared hit=11194
+ Planning Time: 0.324 ms
+ JIT:
+   Functions: 120
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+   Timing: Generation 3.189 ms (Deform 1.460 ms), Inlining 113.050 ms, Optimization 160.759 ms, Emission 117.842 ms, Total 394.840 ms
+ Execution Time: 15417.340 ms
+(52 rows)
+
+                                                                    QUERY PLAN                                                                     
+---------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..6650394.86 rows=175 width=14) (actual time=1126.383..15609.656 rows=17.00 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   Buffers: shared hit=1124205 read=3930364
+   ->  Parallel Append  (cost=0.00..6649377.36 rows=74 width=14) (actual time=1956.935..15571.311 rows=5.67 loops=3)
+         Buffers: shared hit=1124205 read=3930364
+         ->  Seq Scan on carmichael_number_13  (cost=0.00..518.95 rows=1 width=15) (actual time=151.078..151.078 rows=0.00 loops=1)
+               Filter: (factors @> '{79,83,89,97,101}'::bigint[])
+               Rows Removed by Filter: 15328
+               Buffers: shared hit=461
+         ->  Seq Scan on carmichael_number_14  (cost=0.00..2.76 rows=1 width=15) (actual time=147.433..147.433 rows=0.00 loops=1)
+               Filter: (factors @> '{79,83,89,97,101}'::bigint[])
+               Rows Removed by Filter: 61
+               Buffers: shared hit=136
+         ->  Parallel Seq Scan on carmichael_number_8  (cost=0.00..2148714.95 rows=8 width=14) (actual time=1504.568..5356.310 rows=0.67 loops=3)
+               Filter: (factors @> '{79,83,89,97,101}'::bigint[])
+               Rows Removed by Filter: 33156621
+               Buffers: shared hit=13332 read=1617318
+         ->  Parallel Seq Scan on carmichael_number_9  (cost=0.00..1819368.08 rows=25 width=14) (actual time=588.199..13119.645 rows=6.00 loops=1)
+               Filter: (factors @> '{79,83,89,97,101}'::bigint[])
+               Rows Removed by Filter: 81041489
+               Buffers: shared hit=3168 read=1394116
+         ->  Parallel Seq Scan on carmichael_number_7  (cost=0.00..1283690.81 rows=1 width=14) (actual time=4342.793..4342.793 rows=0.00 loops=2)
+               Filter: (factors @> '{79,83,89,97,101}'::bigint[])
+               Rows Removed by Filter: 31169498
+               Buffers: shared hit=40078 read=918930
+         ->  Parallel Seq Scan on carmichael_number_10  (cost=0.00..776579.01 rows=25 width=14) (actual time=406.005..4629.135 rows=7.00 loops=1)
+               Filter: (factors @> '{79,83,89,97,101}'::bigint[])
+               Rows Removed by Filter: 33199087
+               Buffers: shared hit=603670
+         ->  Parallel Seq Scan on carmichael_number_6  (cost=0.00..383280.10 rows=1 width=14) (actual time=2340.174..2340.174 rows=0.00 loops=1)
+               Filter: (factors @> '{79,83,89,97,101}'::bigint[])
+               Rows Removed by Filter: 19665194
+               Buffers: shared hit=280852
+         ->  Parallel Seq Scan on carmichael_number_11  (cost=0.00..159648.81 rows=11 width=14) (actual time=550.300..996.228 rows=2.00 loops=1)
+               Filter: (factors @> '{79,83,89,97,101}'::bigint[])
+               Rows Removed by Filter: 6529919
+               Buffers: shared hit=125636
+         ->  Parallel Seq Scan on carmichael_number_5  (cost=0.00..63528.63 rows=1 width=14) (actual time=392.576..392.576 rows=0.00 loops=1)
+               Filter: (factors @> '{79,83,89,97,101}'::bigint[])
+               Rows Removed by Filter: 3429390
+               Buffers: shared hit=45678
+         ->  Parallel Seq Scan on carmichael_number_12  (cost=0.00..14047.64 rows=1 width=14) (actual time=183.100..183.101 rows=0.00 loops=1)
+               Filter: (factors @> '{79,83,89,97,101}'::bigint[])
+               Rows Removed by Filter: 547590
+               Buffers: shared hit=11194
+ Planning Time: 0.322 ms
+ JIT:
+   Functions: 120
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+   Timing: Generation 3.212 ms (Deform 1.418 ms), Inlining 112.648 ms, Optimization 161.129 ms, Emission 117.719 ms, Total 394.708 ms
+ Execution Time: 15610.705 ms
+(52 rows)
+
+                                                                      QUERY PLAN                                                                      
+------------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..6684837.26 rows=919 width=14) (actual time=970.141..15441.460 rows=626.00 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   Buffers: shared hit=1149661 read=3928636
+   ->  Parallel Append  (cost=0.00..6683745.36 rows=384 width=14) (actual time=578.683..15406.166 rows=208.67 loops=3)
+         Buffers: shared hit=1149661 read=3928636
+         ->  Seq Scan on carmichael_number_13  (cost=0.00..518.95 rows=1 width=15) (actual time=169.234..169.234 rows=0.00 loops=1)
+               Filter: (factors @> '{149,19603}'::bigint[])
+               Rows Removed by Filter: 15328
+               Buffers: shared hit=461
+         ->  Seq Scan on carmichael_number_14  (cost=0.00..2.76 rows=1 width=15) (actual time=164.925..164.926 rows=0.00 loops=1)
+               Filter: (factors @> '{149,19603}'::bigint[])
+               Rows Removed by Filter: 61
+               Buffers: shared hit=136
+         ->  Parallel Seq Scan on carmichael_number_8  (cost=0.00..2148714.95 rows=108 width=14) (actual time=111.980..5300.567 rows=80.33 loops=3)
+               Filter: (factors @> '{149,19603}'::bigint[])
+               Rows Removed by Filter: 33156542
+               Buffers: shared hit=14196 read=1616454
+         ->  Parallel Seq Scan on carmichael_number_9  (cost=0.00..1819368.08 rows=111 width=14) (actual time=161.963..12688.506 rows=162.00 loops=1)
+               Filter: (factors @> '{149,19603}'::bigint[])
+               Rows Removed by Filter: 81041333
+               Buffers: shared hit=3456 read=1393828
+         ->  Parallel Seq Scan on carmichael_number_7  (cost=0.00..1283690.81 rows=65 width=14) (actual time=23.835..4294.640 rows=72.50 loops=2)
+               Filter: (factors @> '{149,19603}'::bigint[])
+               Rows Removed by Filter: 31169426
+               Buffers: shared hit=40654 read=918354
+         ->  Parallel Seq Scan on carmichael_number_10  (cost=0.00..776579.01 rows=52 width=14) (actual time=673.211..4560.433 rows=45.00 loops=1)
+               Filter: (factors @> '{149,19603}'::bigint[])
+               Rows Removed by Filter: 33199049
+               Buffers: shared hit=603670
+         ->  Parallel Seq Scan on carmichael_number_6  (cost=0.00..383280.10 rows=16 width=14) (actual time=18.616..2382.272 rows=25.00 loops=1)
+               Filter: (factors @> '{149,19603}'::bigint[])
+               Rows Removed by Filter: 19665169
+               Buffers: shared hit=280852
+         ->  Parallel Seq Scan on carmichael_number_11  (cost=0.00..159648.81 rows=11 width=14) (actual time=174.594..966.517 rows=8.00 loops=1)
+               Filter: (factors @> '{149,19603}'::bigint[])
+               Rows Removed by Filter: 6529913
+               Buffers: shared hit=125636
+         ->  Parallel Seq Scan on carmichael_number_5  (cost=0.00..63528.63 rows=3 width=14) (actual time=387.883..387.883 rows=0.00 loops=1)
+               Filter: (factors @> '{149,19603}'::bigint[])
+               Rows Removed by Filter: 3429390
+               Buffers: shared hit=45678
+         ->  Parallel Seq Scan on carmichael_number_3  (cost=0.00..24757.92 rows=15 width=14) (actual time=151.912..151.913 rows=0.00 loops=1)
+               Filter: (factors @> '{149,19603}'::bigint[])
+               Rows Removed by Filter: 1494738
+               Buffers: shared hit=16975
+         ->  Parallel Seq Scan on carmichael_number_12  (cost=0.00..14047.64 rows=1 width=14) (actual time=82.169..82.169 rows=0.00 loops=1)
+               Filter: (factors @> '{149,19603}'::bigint[])
+               Rows Removed by Filter: 547590
+               Buffers: shared hit=11194
+         ->  Parallel Seq Scan on carmichael_number_4  (cost=0.00..9608.54 rows=1 width=14) (actual time=173.157..173.157 rows=0.00 loops=1)
+               Filter: (factors @> '{149,19603}'::bigint[])
+               Rows Removed by Filter: 548265
+               Buffers: shared hit=6753
+ Planning Time: 0.343 ms
+ JIT:
+   Functions: 144
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+   Timing: Generation 3.699 ms (Deform 1.727 ms), Inlining 112.713 ms, Optimization 192.337 ms, Emission 140.082 ms, Total 448.831 ms
+ Execution Time: 15442.784 ms
+(60 rows)
+
+                                                                     QUERY PLAN                                                                      
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..6684896.36 rows=1498 width=14) (actual time=434.680..15398.298 rows=39.00 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   Buffers: shared hit=1151389 read=3926908
+   ->  Parallel Append  (cost=0.00..6683746.56 rows=624 width=14) (actual time=932.512..15363.219 rows=13.00 loops=3)
+         Buffers: shared hit=1151389 read=3926908
+         ->  Seq Scan on carmichael_number_13  (cost=0.00..518.95 rows=1 width=15) (actual time=169.039..169.039 rows=0.00 loops=1)
+               Filter: (factors @> '{251,59051}'::bigint[])
+               Rows Removed by Filter: 15328
+               Buffers: shared hit=461
+         ->  Seq Scan on carmichael_number_14  (cost=0.00..2.76 rows=1 width=15) (actual time=166.339..166.339 rows=0.00 loops=1)
+               Filter: (factors @> '{251,59051}'::bigint[])
+               Rows Removed by Filter: 61
+               Buffers: shared hit=136
+         ->  Parallel Seq Scan on carmichael_number_8  (cost=0.00..2148714.95 rows=179 width=14) (actual time=508.214..5254.221 rows=5.67 loops=3)
+               Filter: (factors @> '{251,59051}'::bigint[])
+               Rows Removed by Filter: 33156616
+               Buffers: shared hit=15060 read=1615590
+         ->  Parallel Seq Scan on carmichael_number_9  (cost=0.00..1819368.08 rows=192 width=14) (actual time=855.125..12558.692 rows=10.00 loops=1)
+               Filter: (factors @> '{251,59051}'::bigint[])
+               Rows Removed by Filter: 81041485
+               Buffers: shared hit=3744 read=1393540
+         ->  Parallel Seq Scan on carmichael_number_7  (cost=0.00..1283690.81 rows=98 width=14) (actual time=1815.888..4339.169 rows=2.50 loops=2)
+               Filter: (factors @> '{251,59051}'::bigint[])
+               Rows Removed by Filter: 31169496
+               Buffers: shared hit=41230 read=917778
+         ->  Parallel Seq Scan on carmichael_number_10  (cost=0.00..776579.01 rows=90 width=14) (actual time=1990.786..4587.683 rows=3.00 loops=1)
+               Filter: (factors @> '{251,59051}'::bigint[])
+               Rows Removed by Filter: 33199091
+               Buffers: shared hit=603670
+         ->  Parallel Seq Scan on carmichael_number_6  (cost=0.00..383280.10 rows=23 width=14) (actual time=52.824..2394.601 rows=2.00 loops=1)
+               Filter: (factors @> '{251,59051}'::bigint[])
+               Rows Removed by Filter: 19665192
+               Buffers: shared hit=280852
+         ->  Parallel Seq Scan on carmichael_number_11  (cost=0.00..159648.81 rows=21 width=14) (actual time=973.460..973.460 rows=0.00 loops=1)
+               Filter: (factors @> '{251,59051}'::bigint[])
+               Rows Removed by Filter: 6529921
+               Buffers: shared hit=125636
+         ->  Parallel Seq Scan on carmichael_number_5  (cost=0.00..63528.63 rows=2 width=14) (actual time=26.949..391.448 rows=2.00 loops=1)
+               Filter: (factors @> '{251,59051}'::bigint[])
+               Rows Removed by Filter: 3429388
+               Buffers: shared hit=45678
+         ->  Parallel Seq Scan on carmichael_number_3  (cost=0.00..24757.92 rows=15 width=14) (actual time=152.056..152.056 rows=0.00 loops=1)
+               Filter: (factors @> '{251,59051}'::bigint[])
+               Rows Removed by Filter: 1494738
+               Buffers: shared hit=16975
+         ->  Parallel Seq Scan on carmichael_number_12  (cost=0.00..14047.64 rows=2 width=14) (actual time=82.597..82.597 rows=0.00 loops=1)
+               Filter: (factors @> '{251,59051}'::bigint[])
+               Rows Removed by Filter: 547590
+               Buffers: shared hit=11194
+         ->  Parallel Seq Scan on carmichael_number_4  (cost=0.00..9608.54 rows=1 width=14) (actual time=172.661..172.661 rows=0.00 loops=1)
+               Filter: (factors @> '{251,59051}'::bigint[])
+               Rows Removed by Filter: 548265
+               Buffers: shared hit=6753
+ Planning Time: 0.352 ms
+ JIT:
+   Functions: 144
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+   Timing: Generation 3.683 ms (Deform 1.734 ms), Inlining 113.809 ms, Optimization 192.367 ms, Emission 140.239 ms, Total 450.100 ms
+ Execution Time: 15399.486 ms
+(60 rows)
+
+                                                                     QUERY PLAN                                                                      
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..6684788.67 rows=443 width=14) (actual time=215.650..15744.401 rows=309.00 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   Buffers: shared hit=1153117 read=3925180
+   ->  Parallel Append  (cost=0.00..6683744.37 rows=187 width=14) (actual time=291.245..15708.189 rows=103.00 loops=3)
+         Buffers: shared hit=1153117 read=3925180
+         ->  Seq Scan on carmichael_number_13  (cost=0.00..518.95 rows=1 width=15) (actual time=169.762..169.762 rows=0.00 loops=1)
+               Filter: (factors @> '{17,197,2749}'::bigint[])
+               Rows Removed by Filter: 15328
+               Buffers: shared hit=461
+         ->  Seq Scan on carmichael_number_14  (cost=0.00..2.76 rows=1 width=15) (actual time=165.479..165.479 rows=0.00 loops=1)
+               Filter: (factors @> '{17,197,2749}'::bigint[])
+               Rows Removed by Filter: 61
+               Buffers: shared hit=136
+         ->  Parallel Seq Scan on carmichael_number_8  (cost=0.00..2148714.95 rows=42 width=14) (actual time=77.075..5404.672 rows=29.67 loops=3)
+               Filter: (factors @> '{17,197,2749}'::bigint[])
+               Rows Removed by Filter: 33156592
+               Buffers: shared hit=15924 read=1614726
+         ->  Parallel Seq Scan on carmichael_number_9  (cost=0.00..1819368.08 rows=62 width=14) (actual time=279.754..12825.879 rows=109.00 loops=1)
+               Filter: (factors @> '{17,197,2749}'::bigint[])
+               Rows Removed by Filter: 81041386
+               Buffers: shared hit=4032 read=1393252
+         ->  Parallel Seq Scan on carmichael_number_7  (cost=0.00..1283690.81 rows=13 width=14) (actual time=99.764..4338.054 rows=8.00 loops=2)
+               Filter: (factors @> '{17,197,2749}'::bigint[])
+               Rows Removed by Filter: 31169490
+               Buffers: shared hit=41806 read=917202
+         ->  Parallel Seq Scan on carmichael_number_10  (cost=0.00..776579.01 rows=47 width=14) (actual time=290.927..4802.182 rows=75.00 loops=1)
+               Filter: (factors @> '{17,197,2749}'::bigint[])
+               Rows Removed by Filter: 33199019
+               Buffers: shared hit=603670
+         ->  Parallel Seq Scan on carmichael_number_6  (cost=0.00..383280.10 rows=2 width=14) (actual time=455.236..2448.461 rows=3.00 loops=1)
+               Filter: (factors @> '{17,197,2749}'::bigint[])
+               Rows Removed by Filter: 19665191
+               Buffers: shared hit=280852
+         ->  Parallel Seq Scan on carmichael_number_11  (cost=0.00..159648.81 rows=15 width=14) (actual time=182.664..1020.001 rows=15.00 loops=1)
+               Filter: (factors @> '{17,197,2749}'::bigint[])
+               Rows Removed by Filter: 6529906
+               Buffers: shared hit=125636
+         ->  Parallel Seq Scan on carmichael_number_5  (cost=0.00..63528.63 rows=1 width=14) (actual time=389.517..389.517 rows=0.00 loops=1)
+               Filter: (factors @> '{17,197,2749}'::bigint[])
+               Rows Removed by Filter: 3429390
+               Buffers: shared hit=45678
+         ->  Parallel Seq Scan on carmichael_number_3  (cost=0.00..24757.92 rows=1 width=14) (actual time=150.883..150.883 rows=0.00 loops=1)
+               Filter: (factors @> '{17,197,2749}'::bigint[])
+               Rows Removed by Filter: 1494738
+               Buffers: shared hit=16975
+         ->  Parallel Seq Scan on carmichael_number_12  (cost=0.00..14047.64 rows=2 width=14) (actual time=42.300..89.057 rows=2.00 loops=1)
+               Filter: (factors @> '{17,197,2749}'::bigint[])
+               Rows Removed by Filter: 547588
+               Buffers: shared hit=11194
+         ->  Parallel Seq Scan on carmichael_number_4  (cost=0.00..9608.54 rows=1 width=14) (actual time=172.933..172.933 rows=0.00 loops=1)
+               Filter: (factors @> '{17,197,2749}'::bigint[])
+               Rows Removed by Filter: 548265
+               Buffers: shared hit=6753
+ Planning Time: 0.361 ms
+ JIT:
+   Functions: 144
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+   Timing: Generation 3.792 ms (Deform 1.725 ms), Inlining 113.439 ms, Optimization 192.543 ms, Emission 140.108 ms, Total 449.882 ms
+ Execution Time: 15745.645 ms
+(60 rows)
+
+                                                                      QUERY PLAN                                                                       
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..6685100.64 rows=3499 width=14) (actual time=876.343..15740.804 rows=3339.00 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   Buffers: shared hit=1154845 read=3923452
+   ->  Parallel Append  (cost=0.00..6683750.74 rows=1460 width=14) (actual time=475.396..15706.987 rows=1113.00 loops=3)
+         Buffers: shared hit=1154845 read=3923452
+         ->  Seq Scan on carmichael_number_13  (cost=0.00..518.95 rows=1 width=15) (actual time=169.971..169.971 rows=0.00 loops=1)
+               Filter: (factors @> '{23,401,8009}'::bigint[])
+               Rows Removed by Filter: 15328
+               Buffers: shared hit=461
+         ->  Seq Scan on carmichael_number_14  (cost=0.00..2.76 rows=1 width=15) (actual time=165.623..165.623 rows=0.00 loops=1)
+               Filter: (factors @> '{23,401,8009}'::bigint[])
+               Rows Removed by Filter: 61
+               Buffers: shared hit=136
+         ->  Parallel Seq Scan on carmichael_number_8  (cost=0.00..2148714.95 rows=511 width=14) (actual time=52.029..5455.595 rows=331.00 loops=3)
+               Filter: (factors @> '{23,401,8009}'::bigint[])
+               Rows Removed by Filter: 33156291
+               Buffers: shared hit=16788 read=1613862
+         ->  Parallel Seq Scan on carmichael_number_9  (cost=0.00..1819368.08 rows=571 width=14) (actual time=130.222..12740.305 rows=1418.00 loops=1)
+               Filter: (factors @> '{23,401,8009}'::bigint[])
+               Rows Removed by Filter: 81040077
+               Buffers: shared hit=4320 read=1392964
+         ->  Parallel Seq Scan on carmichael_number_7  (cost=0.00..1283690.81 rows=131 width=14) (actual time=38.702..4362.563 rows=115.00 loops=2)
+               Filter: (factors @> '{23,401,8009}'::bigint[])
+               Rows Removed by Filter: 31169384
+               Buffers: shared hit=42382 read=916626
+         ->  Parallel Seq Scan on carmichael_number_10  (cost=0.00..776579.01 rows=191 width=14) (actual time=135.453..4730.267 rows=613.00 loops=1)
+               Filter: (factors @> '{23,401,8009}'::bigint[])
+               Rows Removed by Filter: 33198481
+               Buffers: shared hit=603670
+         ->  Parallel Seq Scan on carmichael_number_6  (cost=0.00..383280.10 rows=18 width=14) (actual time=49.619..2387.826 rows=17.00 loops=1)
+               Filter: (factors @> '{23,401,8009}'::bigint[])
+               Rows Removed by Filter: 19665177
+               Buffers: shared hit=280852
+         ->  Parallel Seq Scan on carmichael_number_11  (cost=0.00..159648.81 rows=33 width=14) (actual time=65.558..1023.386 rows=68.00 loops=1)
+               Filter: (factors @> '{23,401,8009}'::bigint[])
+               Rows Removed by Filter: 6529853
+               Buffers: shared hit=125636
+         ->  Parallel Seq Scan on carmichael_number_5  (cost=0.00..63528.63 rows=1 width=14) (actual time=390.786..390.786 rows=0.00 loops=1)
+               Filter: (factors @> '{23,401,8009}'::bigint[])
+               Rows Removed by Filter: 3429390
+               Buffers: shared hit=45678
+         ->  Parallel Seq Scan on carmichael_number_3  (cost=0.00..24757.92 rows=1 width=14) (actual time=152.424..152.424 rows=0.00 loops=1)
+               Filter: (factors @> '{23,401,8009}'::bigint[])
+               Rows Removed by Filter: 1494738
+               Buffers: shared hit=16975
+         ->  Parallel Seq Scan on carmichael_number_12  (cost=0.00..14047.64 rows=1 width=14) (actual time=94.667..94.667 rows=0.00 loops=1)
+               Filter: (factors @> '{23,401,8009}'::bigint[])
+               Rows Removed by Filter: 547590
+               Buffers: shared hit=11194
+         ->  Parallel Seq Scan on carmichael_number_4  (cost=0.00..9608.54 rows=1 width=14) (actual time=172.487..172.487 rows=0.00 loops=1)
+               Filter: (factors @> '{23,401,8009}'::bigint[])
+               Rows Removed by Filter: 548265
+               Buffers: shared hit=6753
+ Planning Time: 0.366 ms
+ JIT:
+   Functions: 144
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+   Timing: Generation 3.914 ms (Deform 1.950 ms), Inlining 113.712 ms, Optimization 192.451 ms, Emission 140.174 ms, Total 450.250 ms
+ Execution Time: 15742.319 ms
+(60 rows)
+
