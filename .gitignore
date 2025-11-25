@@ -1,2 +1,3 @@
 database/carmichael_numbers.txt
+__pycache__/
 .env
