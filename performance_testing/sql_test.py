@@ -52,7 +52,11 @@ def execute_tests() -> None:
                 raise ValueError(f"Invalid path name found while iterating inside the files of {TEST_DIR}")
 
             print(f"Reading {filename}...")
+            one_out.write('='*80 + '\n')
             one_out.write(f"TEST_NAME: {filename}\n")
+            
+            
+            multi_out.write('='*80 + '\n')
             multi_out.write(f"TEST_NAME: {filename}\n")
             
             cases = read_test_case(filepath)
@@ -61,11 +65,11 @@ def execute_tests() -> None:
 
             for idx, case in enumerate(cases):
                 print("Case:", case)
-                read_and_write_case(one_out, 'One Table', idx, case)
-                read_and_write_case(multi_out, 'Multi Table', idx, case)
+                read_and_write_case(one_out, 'One Table', idx, case, run_one_table_explain)
+                read_and_write_case(multi_out, 'Multi Table', idx, case, run_multi_table_explain)
 
 
-def read_and_write_case(writer, name:str, index: int, test_case: str) -> None:
+def read_and_write_case(writer, name:str, index: int, test_case: str, func:callable) -> None:
     """
     Controller function:
         Run the query and format the results nicely, passed into the io streamer to write.
@@ -74,7 +78,7 @@ def read_and_write_case(writer, name:str, index: int, test_case: str) -> None:
     writer.write('='*80 + '\n')
     writer.write(f"TEST_CASE_NUM: {index + 1}\n")
     writer.write('='*80 + '\n')
-    writer.write(run_one_table_explain(test_case))
+    writer.write(func(test_case))
     writer.write('\n')
 
 
