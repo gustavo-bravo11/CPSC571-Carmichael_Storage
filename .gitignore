@@ -1,3 +1,6 @@
 database/carmichael_numbers.txt
 __pycache__/
 .env
+
+## Backend functions
+node_modules/
