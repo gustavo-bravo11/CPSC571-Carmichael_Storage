@@ -10,6 +10,7 @@ ONE_TABLE_FILENAME = "one_table_results.txt"
 MULTI_TABLE_FILENAME = "multi_table_results.txt"
 TEST_DIR = "test_cases"
 NUMBER_OF_EXECUTIONS = 3
+OUTPUT_DIR = "database_results"
 
 load_dotenv(override=True)
 db_client = PSQLClient()
@@ -38,7 +39,7 @@ def execute_tests() -> None:
     The query output of the analyze queries is combined and then saved onto a master text file.
     """
     read_time = str(datetime.now()).replace(" ", "_")
-    output_path = "results/" + read_time
+    output_path = OUTPUT_DIR + "/" + read_time
     os.makedirs(output_path, exist_ok=True)
 
     one_table_path = output_path + "/" + ONE_TABLE_FILENAME
