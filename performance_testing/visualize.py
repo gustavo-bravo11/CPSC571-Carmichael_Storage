@@ -101,7 +101,11 @@ def create_grid(
     fig.subplots_adjust(top=0.85)
 
     global image_counter
-    plt.savefig(f'{IMG_DIR}/{image_counter:02d}_{title.replace(' ','_').lower()}.png')
+    plt.savefig(
+        f'{IMG_DIR}/{image_counter:02d}_{title.replace(' ','_').lower()}.png',
+        dpi=300,
+        bbox_inches='tight'
+    )
     image_counter += 1
 
 
@@ -140,7 +144,7 @@ def visualize(
             avg_by_factors.index, 
             avg_by_factors.values, 
             label=schema,
-            color=colours.get(schema, 'black'),
+            color=colours.get(str(schema), 'black'),
             marker='.'
         )
 
@@ -164,8 +168,16 @@ def visualize(
     if y_label:
         ax.set_ylabel(clean_names(avg_by_factors.name))
 
+    # If the x labels are long we'll rotate for readability
     if max(len(str(label)) for label in df[gb_col].unique()) > 5:
         ax.tick_params(axis='x', rotation=45)
+    
+    # If neither then this is a secondary viz
+    # Therefore it has room for a subtitle
+    # This just states the reason for removal
+    if not baseline and not legend:
+        ax.set_title("Observations without baseline", 
+                     fontsize=12, loc='left', color='#2b2b2b')
 
     ax.xaxis.set_major_locator(ticker.MaxNLocator(integer=True))    # Keeps the values as integers
     ax.yaxis.set_major_formatter(ticker.FuncFormatter(ms_to_s))     # Converts the displayed amount to seconds from ms
@@ -178,7 +190,7 @@ def clean_names(name: str) -> str:
     return name.replace('_', ' ').replace('num', 'Number').replace('ms','').strip().title()
 
 
-def ms_to_s(val: str, pos:int) -> str:
+def ms_to_s(val: int, pos:int) -> str:
     """
     Helper callback used to convert ms to s
     by Str formatter.
@@ -217,7 +229,7 @@ def collect_and_parse_data() -> list[list[dict]]:
 
 
 def parse_explain_file(
-        path: str, 
+        path: Path, 
         test_timestamp: str, 
         testing_schema: str
     ) -> list[dict]:
@@ -266,7 +278,7 @@ def parse_explain_file(
                 "name": test_name,
                 "case_num": case_num,
                 "factors": factors_str,
-                "total_time_ms": planning_time + execution_time
+                "total_time_ms": planning_time + execution_time if planning_time and execution_time else None
             })
 
     return results
@@ -349,7 +361,7 @@ def main():
                 "Average taken for balanced tests", 'min_ord_mag10', 'total_time_ms')
     create_grid(balanced_df, "Order of Magnitude Improvement", 
                 "Average taken by group", 'min_ord_mag10', 'improvement_ms', True)
-
-
+    
+    
 if __name__ == "__main__":
     main()
