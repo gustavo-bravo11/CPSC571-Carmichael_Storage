@@ -168,9 +168,11 @@ def visualize(
     if y_label:
         ax.set_ylabel(clean_names(avg_by_factors.name))
 
-    # If the x labels are long we'll rotate for readability
-    if max(len(str(label)) for label in df[gb_col].unique()) > 5:
-        ax.tick_params(axis='x', rotation=45)
+    # If the x labels are long we'll clean them and rotate for readability
+    if max(len(str(label)) for label in df[gb_col].unique()) > 3:
+        labels = [clean_names(str(label)) for label in df[gb_col].unique()]
+        ax.set_xticks(range(len(labels)))
+        ax.set_xticklabels(labels, rotation=45, ha='right')
     
     # If neither then this is a secondary viz
     # Therefore it has room for a subtitle
@@ -187,7 +189,12 @@ def clean_names(name: str) -> str:
     """
     Helper function used to sanitize the column names for visualizing.
     """
-    return name.replace('_', ' ').replace('num', 'Number').replace('ms','').strip().title()
+    return name\
+        .replace('_', ' ')\
+        .replace('num', 'Number')\
+        .replace('ms','')\
+        .replace('.txt', '')\
+        .strip().title()
 
 
 def ms_to_s(val: int, pos:int) -> str:
