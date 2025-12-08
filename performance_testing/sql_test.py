@@ -1,3 +1,25 @@
+"""
+Python SQL Tester
+
+Run the SQL scripts required to analyze the query time using the EXPLAIN
+ANALYZE keywords.
+
+The script will connect to the database, and then execute the test
+cases found in the TEST_DIR path director. Requirements for file:
+- Database Setup with Carmichael table implementations.
+- Implementation of PSQLClient.
+- Environment variables for establishing a connection.
+- Test cases found in the TEST DIR path.
+
+Currently there are two SQL implementations created that this file
+will test. They are:
+1) One table with GIN - All CN numbers in one table.
+2) Multi table - All CN numbers split by the number of factors.
+
+@author Gustavo Bravo
+@date November 21, 2025
+"""
+
 from dotenv import load_dotenv
 from datetime import datetime
 import sys
@@ -53,6 +75,7 @@ def execute_tests() -> None:
                 raise ValueError(f"Invalid path name found while iterating inside the files of {TEST_DIR}")
 
             print(f"Reading {filename}...")
+
             one_out.write('='*80 + '\n')
             one_out.write(f"TEST_NAME: {filename}\n")
             

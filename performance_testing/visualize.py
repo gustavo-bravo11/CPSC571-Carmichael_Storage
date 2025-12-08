@@ -1,3 +1,27 @@
+"""
+Data Visualization File
+
+This file will read the test results from sql_test.py and potentially other
+files that are used for testing to then output the results into specialized
+visualizations. All test results are compared against a baseline, which is
+a text parser that was used prior to this. The baseline is hardcoded as a
+constant, and then plotted on every graph that requires it.
+
+By default we output two graphs, one with the baseline, and one without it.
+This is done to adjust the scale of the y-axis to be more relevant if the
+baseline is much higher than the total time of the tests.
+
+The tests are first parsed from their text outputs, a specific
+parser function is required for the specific test, and then the results
+are appended into a pandas dataframe.
+
+Then it will output the results of the visualizations as PNGs, with
+the output pat specialized as a constant.
+
+@author Gustavo Bravo
+@date December 7, 2025
+"""
+
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import pandas as pd
@@ -229,13 +253,13 @@ def collect_and_parse_data() -> list[list[dict]]:
             continue
         
         # Add the results from both schemata
-        results += parse_explain_file(item / ONE_TABLE_FILENAME, item.name, "One Table")
-        results += parse_explain_file(item / MULTI_TABLE_FILENAME, item.name, "Multi Table")
+        results += parse_SQL_explain(item / ONE_TABLE_FILENAME, item.name, "One Table")
+        results += parse_SQL_explain(item / MULTI_TABLE_FILENAME, item.name, "Multi Table")
     
     return results
 
 
-def parse_explain_file(
+def parse_SQL_explain(
         path: Path, 
         test_timestamp: str, 
         testing_schema: str
