@@ -19,23 +19,31 @@ class DatabaseInterface {
 
     /**
      * Get CN number based on a list of prime factors (no primality test done)
-     * @param {number[]} factors - Prime factors
-     * @returns {Promise<bigint[]>} CN numbers that pass the divisibility test
+     * @param {Number[]} factors - Prime factors
+     * @returns {Promise<String[]>} CN numbers that pass the divisibility test
      * @throws {Error} If not implemented by concrete class
      */
     async getCarmichaelNumber(factors) {
-        throw new Error("Method 'getCarmichaelNumber()' must be implemented");
+        throw new Error("Method 'getCarmichaelNumber()' must be implemented.");
     }
 
     /**
      * Get the factors of a number if it is a CN number
-     * @param {number} carmichael_number
-     * @returns {Promise<number[]>} factors of CN number
+     * @param {String} carmichael_number
+     * @returns {Promise<Number[]>} factors of CN number
      * @throws {Error} If not implemented by concrete class
      */
-    async getFactors(carmichael_numbernumber) {
+    async getFactors(carmichael_number) {
         throw new Error("Method 'getFactors' must be implement")
+    }
+
+    /**
+     * Disconnect from Database client
+     * @throws {Error} If not implemented by concrete class
+     */
+    async disconnect() {
+        throw new Error("Method 'disconnect' must be implemented.")
     }
 }
 
-MediaSourceHandle.exports = DatabaseInterface;
+module.exports = DatabaseInterface;
