@@ -150,6 +150,7 @@ def run_one_table_explain(factor_str:str) -> str:
 
     return db_client.execute_query(query)
 
+
 def read_test_case(file_path:str) -> list[str]:
     """
     Read the data from the first test case. Return a 1d array.
