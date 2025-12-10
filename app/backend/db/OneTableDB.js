@@ -14,10 +14,6 @@ const DatabaseInterface = require('./DatabaseInterface');
 const pg = require('pg');
 const { Pool} = pg;
 
-// Pass this config when instatiating the function
-// Remove this line and comments once fully implemented
-require('dotenv').config({ path: '../.env'})
-
 
 class OneTableDB extends DatabaseInterface {
     #pool;
@@ -94,10 +90,11 @@ module.exports = OneTableDB;
 //             const query = await db.getFactors('561');
 
 //             // const query = await db.getCarmichaelNumber([
-//             //     // 4
-//             //     11, 37, 61,
-//             //     97, 163, 173,
-//             //     211, 1483, 4297, 7741
+                // 4
+                // 11, 37, 61,
+                // 97, 163, 173,
+                // 211, 1483, 4297, 7741
+                // 4,11,37,61,97,163,173,211,1483,4297,7741
 //             // ]);
 
 //             console.log(query);
