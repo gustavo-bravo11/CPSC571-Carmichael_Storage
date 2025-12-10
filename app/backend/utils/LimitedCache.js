@@ -1,7 +1,7 @@
 /**
  * This class creates a map that is limited by its size.
  * The goal of creating a cache like this is to prevent the server from
- * craching by making the map too big. A cache is also used to improve the
+ * crashing by making the map too big. A cache is also used to improve the
  * user experience. If a user runs the same query back to back, the cache will be able
  * to find it and return the results immediatly. This also allows for paginated results
  * to work seemlessly.
@@ -20,7 +20,7 @@ class LimitedCache {
     /**
      * Estimate the size by using a factor of 100 based on each element in the array.
      * @param {String[]} data - A string array representing query results.
-     * @returns The length as a number.
+     * @returns The estimated size of the array as a number.
      */
     #estimateSize(data_array) {
         return data_array.length * 100;
@@ -48,7 +48,7 @@ class LimitedCache {
      * out of the map. Using the LRU startegy explained in the get method.
      * We remove the last element in the map, this is the oldest element.
      * @param {String} key - Cache key, the numbers being queried
-     * @param {*} data - The results of the query
+     * @param {String[]} data - The results of the query
      */
     set(key, data) {
         const size = this.#estimateSize(data);
