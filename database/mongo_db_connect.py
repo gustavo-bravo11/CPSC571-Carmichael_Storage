@@ -2,9 +2,14 @@ import urllib.parse
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
 
+import os
+from dotenv import load_dotenv
 
-MONGO_INITDB_ROOT_USERNAME='jewebste'
-MONGO_INITDB_ROOT_PASSWORD='gKxkyDja39PLZLBLjr4J'
+
+load_dotenv(override=True)
+
+MONGO_INITDB_ROOT_USERNAME=os.getenv('MONGO_USER', '')
+MONGO_INITDB_ROOT_PASSWORD=os.getenv('MONGO_PASSWORD', '')
 
 def main():
     u = urllib.parse.quote_plus( MONGO_INITDB_ROOT_USERNAME )
