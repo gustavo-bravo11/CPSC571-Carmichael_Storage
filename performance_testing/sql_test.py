@@ -1,13 +1,14 @@
 """
-Python SQL Tester
+Python SQL and NoSQL Tester
 
-Run the SQL scripts required to analyze the query time using the EXPLAIN
-ANALYZE keywords.
+Run scripts required to analyze the query time using the EXPLAIN
+ANALYZE keywords or .explain() pymongo function.
 
 The script will connect to the database, and then execute the test
 cases found in the TEST_DIR path director. Requirements for file:
 - Database Setup with Carmichael table implementations.
 - Implementation of PSQLClient.
+- Connection to PyMongo client.
 - Environment variables for establishing a connection.
 - Test cases found in the TEST DIR path.
 
@@ -15,9 +16,11 @@ Currently there are two SQL implementations created that this file
 will test. They are:
 1) One table with GIN - All CN numbers in one table.
 2) Multi table - All CN numbers split by the number of factors.
+3) MongoDB collection with Multi Key Index - All CN numbers in one collection.
 
 @author Gustavo Bravo
 @date November 21, 2025
+    Revised December 11, added MongoDB tests
 """
 
 from dotenv import load_dotenv
@@ -27,23 +30,37 @@ import os
 
 sys.path.append(str(os.path.join(os.path.dirname(__file__), '..')))
 from connection.psql_client import PSQLClient
+from urllib.parse import quote_plus
+from pymongo import MongoClient
 
 ONE_TABLE_FILENAME = "one_table_results.txt"
 MULTI_TABLE_FILENAME = "multi_table_results.txt"
+MONGO_DB_FILENAME = "mongodb_results.txt"
+
 TEST_DIR = "test_cases"
 NUMBER_OF_EXECUTIONS = 3
 OUTPUT_DIR = "database_results"
 
 load_dotenv(override=True)
 db_client = PSQLClient()
+mongo_client = MongoClient(
+    f"mongodb://{quote_plus(os.getenv('MONGO_USER', ''))}" +
+    f":{quote_plus(os.getenv('MONGO_PASSWORD', ''))}" +
+    f"@{quote_plus(os.getenv('MONGO_HOST', ''))}:" + 
+    f"{quote_plus(os.getenv('MONGO_PORT', ''))}/"
+)
 
 
 def main () -> None:
     print("Database Tests Beginning!")
     print("...")
-    for execution_number in range(NUMBER_OF_EXECUTIONS):
-        print("Execution", execution_number + 1)
-        execute_tests()
+    try:
+        for execution_number in range(NUMBER_OF_EXECUTIONS):
+            print("Execution", execution_number + 1)
+            execute_tests()
+    finally:
+        mongo_client.close()
+        
 
 
 def execute_tests() -> None:
@@ -66,8 +83,12 @@ def execute_tests() -> None:
 
     one_table_path = output_path + "/" + ONE_TABLE_FILENAME
     multi_table_path = output_path + "/" + MULTI_TABLE_FILENAME
+    mongo_collection_path = output_path + "/" + MONGO_DB_FILENAME
 
-    with open(one_table_path, 'w') as one_out, open(multi_table_path, 'w') as multi_out:
+    with open(one_table_path, 'w') as one_out, \
+         open(multi_table_path, 'w') as multi_out, \
+         open(mongo_collection_path, 'w') as mongo_out:
+        
         for filename in os.listdir(TEST_DIR):
             filepath = os.path.join(TEST_DIR, filename)
 
@@ -79,9 +100,11 @@ def execute_tests() -> None:
             one_out.write('='*80 + '\n')
             one_out.write(f"TEST_NAME: {filename}\n")
             
-            
             multi_out.write('='*80 + '\n')
             multi_out.write(f"TEST_NAME: {filename}\n")
+
+            mongo_out.write('='*80 + '\n')
+            mongo_out.write(f"TEST_NAME: {filename}\n")
             
             cases = read_test_case(filepath)
             print("Runnings tests on:", cases)
@@ -91,6 +114,7 @@ def execute_tests() -> None:
                 print("Case:", case)
                 read_and_write_case(one_out, 'One Table', idx, case, run_one_table_explain)
                 read_and_write_case(multi_out, 'Multi Table', idx, case, run_multi_table_explain)
+                read_and_write_case(mongo_out, 'Mongo NoSQL', idx, case, run_mongo_col_explain)
 
 
 def read_and_write_case(writer, name:str, index: int, test_case: str, func:callable) -> None:
@@ -105,6 +129,16 @@ def read_and_write_case(writer, name:str, index: int, test_case: str, func:calla
     writer.write(func(test_case))
     writer.write('\n')
 
+
+def run_mongo_col_explain(factor_str:str) -> str:
+    """
+    Runs test query on mongo DB, returns the executionStats parameter
+    """
+    factors = [int(factor) for factor in factor_str.split(',')]
+    result = mongo_client.find({"factor": {"$all": factors}}).explain()
+
+    return result
+    
 
 def run_multi_table_explain(factor_str:str) -> str:
     """
@@ -138,8 +172,6 @@ def run_one_table_explain(factor_str:str) -> str:
     Run the EXPLAIN ANALYZE query for the one table.
     The values passed in should be a either a comma
     separated list of numbers, or one number.
-    
-    Returns False if query failed to execute
     """
     query = f"""
         EXPLAIN ANALYZE
