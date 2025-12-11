@@ -3,13 +3,18 @@
  * Create a server to host the backend queries and return from the database.
  * 
  * This server will implement a class that inherits from DatabaseInterface
- * into a concrete object. This done so the methods are always the same
+ * into a concrete object. This is done so the methods are always the same
  * even if the implementation of the database changes.
  * 
  * As it's running on the butler servers, the endpoint can always
  * be found at http://thomas.butler.edu:<PORT>/<API-ENDPOINT>.
  * 
  * This file must be in the same directory as /db, /utils, and .env.
+ * 
+ * Note: The caching implementing here is on the SERVE SIDE, which
+ * is not best practice. However, in this project, we are not expecting
+ * thouasands of users, so it's fine for now and we will refactor
+ * after the deadline. 
  * 
  * Usage:
  *  `node server.js`
@@ -64,7 +69,7 @@ function validateFactorArray(input_string) {
         const factor = Number(s);
 
         if (!Number.isInteger(factor) || factor < 1)
-            throw new Error(`Failed to query '${s}', must be a positive integer.`);
+            throw new Error(`Not a positive integer '${s}' parameter`);
         factors.push(factor);
     }
 

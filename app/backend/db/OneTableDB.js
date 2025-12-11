@@ -26,7 +26,7 @@ class OneTableDB extends DatabaseInterface {
     /**
      * Get the CN, convert to string array of just numbers, and return
      * @param {Number[]} factors - Prime factors to perform divisibility test on.
-     * @returns {String[]} result - The results CN or empty if no matches.
+     * @returns {Promise<String[]>} result - The results CN or empty if no matches.
      */
     async getCarmichaelNumber(factors) {
         const query = `
@@ -49,7 +49,7 @@ class OneTableDB extends DatabaseInterface {
     /**
      * Get the factors of a CN number, empty if not a CN number
      * @param {Number} carmichael_number 
-     * @returns {Number[]} Array of factors for the CN 
+     * @returns {Promise<Number[]>} Array of factors for the CN 
      */
     async getFactors(carmichael_number) {
         const query = `
@@ -94,7 +94,7 @@ module.exports = OneTableDB;
                 // 11, 37, 61,
                 // 97, 163, 173,
                 // 211, 1483, 4297, 7741
-                // 4,11,37,61,97,163,173,211,1483,4297,7741
+                // 11,37,61,97,163,173,211,1483,4297,7741
 //             // ]);
 
 //             console.log(query);
