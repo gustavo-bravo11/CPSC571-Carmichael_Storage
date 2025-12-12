@@ -7,6 +7,9 @@ This file will
 3) Convert the text data into a JSON format.
 4) Insert the data into the carmichael_number database.
 5) Adds an index to the factor array for querying efficiency.
+
+@author Gustavo Bravo
+@date December 11, 2025
 """
 import urllib.parse
 import os
