@@ -136,7 +136,8 @@ def run_mongo_col_explain(factor_str:str) -> str:
     Runs test query on mongo DB, returns the executionStats parameter
     """
     factors = [int(factor) for factor in factor_str.split(',')]
-    result = mongo_client.find({"factor": {"$all": factors}}).explain()
+    result = mongo_client[os.getenv('DATABASE', '')]['carmichael_number']\
+        .find({"factors": {"$all": factors}}).explain()
 
     return json.dumps(result, indent=2, default=str)
     
