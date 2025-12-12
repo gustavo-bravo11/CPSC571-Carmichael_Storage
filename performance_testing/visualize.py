@@ -24,6 +24,7 @@ the output pat specialized as a constant.
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+import json
 import pandas as pd
 import re
 
@@ -38,6 +39,7 @@ TEST_DIR = "database_results"
 IMG_DIR = "visualizations"
 ONE_TABLE_FILENAME = "one_table_results.txt"
 MULTI_TABLE_FILENAME = "multi_table_results.txt"
+MONGO_COLLECTION_FILENAME = "mongodb_results.txt"
 TIMESTAMP_FORMAT = "%Y-%m-%d_%H:%M:%S.%f"
 TEST_BASELINE_MS = 265000
 
@@ -68,6 +70,7 @@ colours = {
     'C++ Parser': 'red',
     'One Table': 'blue',
     'Multi Table': 'darkorange',
+    'Mongo DB': '#2f945b'
 }
 
 
@@ -198,7 +201,7 @@ def visualize(
         ax.set_xticks(range(len(labels)))
         ax.set_xticklabels(labels, rotation=45, ha='right')
     
-    # If neither then this is a secondary viz
+    # If neither are true then this is a secondary viz
     # Therefore it has room for a subtitle
     # This just states the reason for removal
     if not baseline and not legend:
@@ -255,7 +258,64 @@ def collect_and_parse_data() -> list[list[dict]]:
         # Add the results from both schemata
         results += parse_SQL_explain(item / ONE_TABLE_FILENAME, item.name, "One Table")
         results += parse_SQL_explain(item / MULTI_TABLE_FILENAME, item.name, "Multi Table")
+        results += parse_MDB_explain(item / MONGO_COLLECTION_FILENAME, item.name, "Mongo DB")
     
+    return results
+
+
+def parse_MDB_explain(
+        path: Path, 
+        test_timestamp: str, 
+        testing_schema: str
+    ) -> list[dict]:
+    """
+    NoSQL explain parser.
+
+    NoSQL much cleaner as the results are returned as a JSON, with nested objects like this:
+        {'executionSuccess': True,
+        'filter': {'$and': [{'factor': {'$eq': 211}},
+            {'factor': {'$eq': 1483}},
+            {'factor': {'$eq': 4297}},
+            {'factor': {'$eq': 7741}}]},
+        'allPlansExecution': []}
+
+    We are interested in getting the factors from the query, the optimization time
+    and the execution time. The sum of these two is our total time.
+    """
+    results = []
+
+    with open(path, 'r', encoding='utf-8') as f:
+        text = f.read()
+
+    test_blocks = re.split(r"=+\s*TEST_NAME:", text)[1:]
+    for block in test_blocks:
+        name_match = re.search(r"(.*?)\n=+", block)
+        test_name = name_match.group(1).strip() if name_match else None
+
+        case_blocks = re.split(r"=+\s*TEST_CASE_NUM:", block)[1:]
+
+        for case_block in case_blocks:
+            case_match = re.search(r"(\d+)", case_block)
+            case_num = int(case_match.group(1)) if case_match else None
+
+            json_start = case_block.find('\n', case_block.find('='))
+            data = json.load(case_block[json_start:].strip()) if json_start else None
+
+            planning_time = float(data['queryPlanner']['optimizationTimeMillis']) if data else None
+            execution_time = float(data['executionStats']['executionTimeMillis']) if data else None
+
+            filter_data = data['executionStats']['executionStages']['filter']['$and'] if data else None
+            factors_str = ','.join(str(e['factor']['$eq']) for e in filter_data) if filter_data else None
+
+            results.append({
+                "schema": testing_schema,
+                "timestamp": datetime.strptime(test_timestamp, TIMESTAMP_FORMAT),
+                "name": test_name,
+                "case_num": case_num,
+                "factors": factors_str,
+                "total_time_ms": planning_time + execution_time if planning_time is not None and execution_time is not None else None
+            })
+        
     return results
 
 
@@ -309,7 +369,7 @@ def parse_SQL_explain(
                 "name": test_name,
                 "case_num": case_num,
                 "factors": factors_str,
-                "total_time_ms": planning_time + execution_time if planning_time and execution_time else None
+                "total_time_ms": planning_time + execution_time if planning_time is not None and execution_time is not None else None
             })
 
     return results
