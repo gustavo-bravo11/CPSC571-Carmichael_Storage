@@ -3,6 +3,7 @@ __pycache__/
 .env
 .nfs0000000000aab19700001496
 *.ipynb
+*.pem
 
 ## Backend functions
 node_modules/
