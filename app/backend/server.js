@@ -38,10 +38,10 @@ const MAX_CACHE_SIZE = 5 * 1024 * 1024 * 1024           // 5GB Cache
 const LimitedCache = require('./utils/LimitedCache');
 const query_cache = new LimitedCache(MAX_CACHE_SIZE);
 
-const express = require ('express');
+const express = require('express');
+const cors = require('cors');
 const app = express();
 const port = process.env.WEB_PORT;
-
 
 // Helper functions
 
@@ -79,6 +79,10 @@ function validateFactorArray(input_string) {
 // Middleware
 app.use(express.json());
 
+app.use(cors({
+    origin: 'https://blue.butler.edu'
+}));
+
 app.use((req, res, next) => {
     const timestamp = new Date().toISOString();
     console.log(`[${timestamp}] ${req.method} request on ${req.url}`);
@@ -86,6 +90,17 @@ app.use((req, res, next) => {
 });
 
 // API Endpoints
+
+/**
+ * Returns the API config for the frontend to run one
+ */
+app.get('/api/config', (req, res) => {
+    const url = `http://${process.env.WEB_HOST}`+
+                `:${process.env.WEB_PORT}`;
+    res.json({
+        apiBaseURL: url
+    });
+});
 
 /**
  * Get Carmichael Numbers API Endpoint
