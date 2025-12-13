@@ -43,6 +43,15 @@ const cors = require('cors');
 const app = express();
 const port = process.env.WEB_PORT;
 
+// HTTPS CERTIFICATES NOT SUITABLE FOR LONG-TERM
+const https = require('https');
+const fs = require('fs');
+
+const options = {
+    key: fs.readFileSync('server-key.pem'),
+    cert: fs.readFileSync('server-cert.pem')
+};
+
 // Helper functions
 
 // Validate that the query input is indeed a string
@@ -79,10 +88,16 @@ function validateFactorArray(input_string) {
 // Middleware
 app.use(express.json());
 
+// Pages to accept requests from
 app.use(cors({
-    origin: 'https://blue.butler.edu'
+    origin: [
+        'https://blue.butler.edu',
+        'http://127.0.0.1:5500',
+        'http://localhost:5500'
+    ]
 }));
 
+// Console log all backend requests
 app.use((req, res, next) => {
     const timestamp = new Date().toISOString();
     console.log(`[${timestamp}] ${req.method} request on ${req.url}`);
@@ -191,6 +206,10 @@ app.get('/api/factors', async (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log(`server.js running on port: ${port}`);
+// app.listen(port, () => {
+//     console.log(`server.js running on port: ${port}`);
+// });
+
+https.createServer(options, app).listen(port, () => {
+    console.log(`HTTPS server running on port: ${port}`);
 });
