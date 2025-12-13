@@ -303,6 +303,7 @@ def parse_MDB_explain(
             case_match = re.search(r"(\d+)", case_block)
             case_num = int(case_match.group(1)) if case_match else None
 
+            # Parse the json results from the .explain query
             json_start = case_block.find('\n', case_block.find('='))
             data = json.loads(case_block[json_start:].strip()) if json_start else None
 
@@ -311,6 +312,7 @@ def parse_MDB_explain(
 
             parsed_query = data['queryPlanner']['parsedQuery'] if data else None
 
+            # Multi case if there are multiple factors
             if parsed_query:
                 if '$and' in parsed_query:
                     factors_str = ','.join(
