@@ -135,6 +135,8 @@ function initializeDivisibility() {
 }
 
 // Helper Functions
+
+// Display the results of the carmichael query as a table
 function displayCarmichaelResults(data, factors) {
     const resultContainer = document.querySelector('#divisibility .result-container');
 
@@ -144,15 +146,23 @@ function displayCarmichaelResults(data, factors) {
         return;
     }
 
+    // Results table header
     let html = `
-        <div class="results-table-container">
+        <div class="results-table-container"
+             data-factors="${factors.join(',')}"
+             data-current-page="${data.page}"
+             data-total-pages="${data.totalPages}">
             <div class="table-header">
                 <div class="table-title">
-                    <h3>Carmichael Numbers</h3>
+                    <h3>Carmichael Numbers Passing Divisibility Test</h3>
                     <p class="result-stats">Showing ${data.count} of ${data.total} results</p>
                 </div>
-                <div class="pagination-info">
-                    Page ${data.page} / ${data.totalPages}
+                <div class="pagination-controls">
+                    ${data.page > 1 ? '<button class="pagination-btn prev-btn">Previous</button>' : ''}
+                    <div class="pagination-info">
+                        Page ${data.page} / ${data.totalPages}
+                    </div>
+                    ${data.page < data.totalPages ? '<button class="pagination-btn next-btn">Next</button>' : ''}
                 </div>
             </div>
             <table class="results-table">
@@ -165,6 +175,7 @@ function displayCarmichaelResults(data, factors) {
                 <tbody>
     `;
 
+    // Results
     data.data.forEach((number, index) => {
         const globalIndex = (data.page - 1) * data.count + index + 1;
         html += `
@@ -175,13 +186,62 @@ function displayCarmichaelResults(data, factors) {
         `;
     });
 
+    // Table Footer
     html += `
                 </tbody>
             </table>
+            <div class="table-footer">
+                <div class="table-title">
+                    <p class="result-stats">Showing ${data.count} of ${data.total} results</p>
+                </div>
+                <div class="pagination-controls">
+                    ${data.page > 1 ? '<button class="pagination-btn prev-btn">Previous</button>' : ''}
+                    <div class="pagination-info">
+                        Page ${data.page} / ${data.totalPages}
+                    </div>
+                    ${data.page < data.totalPages ? '<button class="pagination-btn next-btn">Next</button>' : ''}
+                </div>
+            </div>
         </div>
     `;
 
     resultContainer.innerHTML = html;
+
+    attachPaginationListeners();
+}
+
+// Listen for the button click to go to the next or previous page
+function attachPaginationListeners() {
+    const container = document.querySelector('.results-table-container');
+    if (!container) return;
+
+    const prevBtn = container.querySelector('.prev-btn');
+    const nextBtn = container.querySelector('.next-btn');
+
+    const factors = container.dataset.factors.split(',').map(f => parseInt(f));
+    const currentPage = parseInt(container.dataset.currentPage);
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', async () => {
+            const resultContainer = document.querySelector('#divisibility .result-container');
+            resultContainer.innerHTML = '<p>Loading results...</p>';
+            const data = await fetchCarmichaelNumber(factors, currentPage - 1);
+            if (data && data.success) {
+                displayCarmichaelResults(data, factors);
+            }
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', async () => {
+            const resultContainer = document.querySelector('#divisibility .result-container');
+            resultContainer.innerHTML = '<p>Loading results...</p>';
+            const data = await fetchCarmichaelNumber(factors, currentPage + 1);
+            if (data && data.success) {
+                displayCarmichaelResults(data, factors);
+            }
+        });
+    }
 }
 
 // Document Wrapper
