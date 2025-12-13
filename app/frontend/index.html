@@ -16,20 +16,19 @@
     </nav>
 
     <section id="divisibility">
-        <!-- Search section -->
         <h2>Search Carmichael Numbers By Prime Factors</h2>
-        <div class="search-controls">
-            <div class="controls-left">
-                <button class="control-btn add-btn">Add Factor</button>
-                <button class="control-btn remove-btn">Remove Factor</button>
-                <div class="input-container">
-                    <input type="number" class="factor-input" min="2">
-                    <input type="number" class="factor-input" min="2">
-                    <input type="number" class="factor-input" min="2">
-                </div>
+        <div class="lookup-section">
+            <div class="input-container">
+                <input type="number" class="number-input" min="2">
+                <input type="number" class="number-input" min="2">
+                <input type="number" class="number-input" min="2">
             </div>
             <div class="controls-right">
-                <button class="search-btn">Find Carmichael Numbers</button>
+                <button class="search-btn">Find Numbers</button>
+                <div class="control-container">
+                    <button class="control-btn remove-btn">-</button>
+                    <button class="control-btn add-btn">+</button>
+                </div>
             </div>
         </div>
         <div class="results-container hidden"></div>
@@ -39,7 +38,7 @@
         <h2>Prime Factorization of Carmichael Numbers</h2>
         <div class="lookup-section">
             <input type="number" class="number-input" min="561">
-            <button class="lookup-btn">Get Factors</button>
+            <button class="search-btn">Get Factors</button>
         </div>
         <div class="results-container hidden"></div> 
     </section>
@@ -56,7 +55,7 @@
                         Gustavo Bravo is a Computer Science and Commerce student 
                         at the University of Calgary who bridges the gap between 
                         data and decision-making. Through his work at Parkland 
-                        Corporation and leadership in case competitions, he's 
+                        and leadership in case competitions, he's 
                         developed a knack for translating technical complexity 
                         into business value. His projects span from building ETL 
                         pipelines and machine learning models to optimizing 
@@ -96,21 +95,23 @@
                         via <a href="https://commons.wikimedia.org/w/index.php?curid=87459394">Wikimedia Commons</a>
                     </figcaption>
                 </figure>
-                <p>
-                    Carmichael numbers are composite numbers that satisfy a congruence 
-                    relation typically associated with prime numbers in modular 
-                    arithmetic. Fermat's Little Theorem states that if p is prime, 
-                    then for any integer a, the number a^p − a is an integer multiple of 
-                    p. Carmichael numbers are composite numbers that share this property, 
-                    passing a Fermat primality test to every base relatively prime to 
-                    the number despite not being prime. The first seven Carmichael 
-                    numbers were discovered by Czech mathematician 
-                    Václav Šimerka in 1885, with the smallest being 561 
-                    (equal to 3 × 11 × 17). These numbers are relatively rare: 
-                    there are 20,138,200 Carmichael numbers between 1 and 10^21, 
-                    yet they are infinite in number, as proven by Alford, Granville, 
-                    and Pomerance in 1994.
-                </p>
+                <div class="intro-text">
+                    <p>
+                        Carmichael numbers are composite numbers that satisfy a congruence 
+                        relation typically associated with prime numbers in modular 
+                        arithmetic. Fermat's Little Theorem states that if <span class="math">p</span> is prime, 
+                        then for any integer <span class="math">a</span>, the number <span class="math">a<sup>p</sup> − a</span> is an integer multiple of 
+                        <span class="math">p</span>. Carmichael numbers are composite numbers that share this property, 
+                        passing a Fermat primality test to every base relatively prime to 
+                        the number despite not being prime. The first seven Carmichael 
+                        numbers were discovered by Czech mathematician 
+                        Václav Šimerka in 1885, with the smallest being 561 
+                        (equal to 3 × 11 × 17). These numbers are relatively rare: 
+                        there are 20,138,200 Carmichael numbers between 1 and 10<sup>21</sup>, 
+                        yet they are infinite in number, as proven by Alford, Granville, 
+                        and Pomerance in 1994.
+                    </p>
+                </div>
             </div>
             <h3>Applications of Carmichael Numbers</h3>
             <p>
@@ -119,8 +120,8 @@
                 Carmichael numbers constitute rare instances where the strict converse of 
                 Fermat's Little Theorem does not hold precludes using that theorem as an 
                 absolute test of primality. This makes tests based solely on Fermat's Little 
-                Theorem less effective than strong probable prime tests such as the Baillie–PSW 
-                primality test and the Miller–Rabin primality test, which are crucial for 
+                Theorem less effective than strong probable prime tests such as the Baillie-PSW 
+                primality test and the Miller-Rabin primality test, which are crucial for 
                 cryptographic systems like RSA encryption. Understanding Carmichael numbers has 
                 led to the development of more sophisticated primality testing algorithms that 
                 avoid being fooled by these pseudoprimes, making them essential to modern 
