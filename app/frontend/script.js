@@ -26,7 +26,7 @@ const API_BASE_URL = 'https://thomas.butler.edu:5433'
  * @returns {Promise<Object|null>} data from the API call
  * @throws {Error} If HTTP call fails
  */
-async function fetchCarmichaelNumber(factors, page=1, limit=100) {
+async function fetchCarmichaelNumber(factors, page=1, limit=30) {
     const baseUrl = `${API_BASE_URL}/api/carmichael_number`;
     const params = new URLSearchParams({
         factors: factors.join(','),
@@ -145,20 +145,41 @@ function displayCarmichaelResults(data, factors) {
     }
 
     let html = `
-        <div class="results-header">
-            <p>
-                Showing ${data.count} of ${data.total} results 
-                (Page ${data.page} of ${data.totalPages})
-            </p>
-        </div>
-        <ul class="result-list">
+        <div class="results-table-container">
+            <div class="table-header">
+                <div class="table-title">
+                    <h3>Carmichael Numbers</h3>
+                    <p class="result-stats">Showing ${data.count} of ${data.total} results</p>
+                </div>
+                <div class="pagination-info">
+                    Page ${data.page} / ${data.totalPages}
+                </div>
+            </div>
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Carmichael Number</th>
+                    </tr>
+                </thead>
+                <tbody>
     `;
 
-    data.data.forEach(number => {
-        html += `<li>${number}</li>`
+    data.data.forEach((number, index) => {
+        const globalIndex = (data.page - 1) * data.count + index + 1;
+        html += `
+                    <tr>
+                        <td>${globalIndex}</td>
+                        <td>${number}</td>
+                    </tr>
+        `;
     });
 
-    html += '</li>';
+    html += `
+                </tbody>
+            </table>
+        </div>
+    `;
 
     resultContainer.innerHTML = html;
 }
