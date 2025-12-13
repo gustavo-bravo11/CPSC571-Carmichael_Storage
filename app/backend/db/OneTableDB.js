@@ -73,37 +73,3 @@ class OneTableDB extends DatabaseInterface {
 }
 
 module.exports = OneTableDB;
-
-// TEST METHODS FOR DEVELOPMENT
-// async function testerMethod() {
-//     if (require.main === module) {
-//         console.log("Testing OneTable Implementation...");
-//         try {
-//             const config = {
-//                 user: process.env.PQ_USER,
-//                 password: process.env.PQ_USER_PASSWORD,
-//                 host: process.env.HOST,
-//                 port: process.env.PQ_PORT,
-//                 database: process.env.DATABASE,
-//             }
-//             const db = new OneTableDB(config);
-//             const query = await db.getFactors('561');
-
-//             // const query = await db.getCarmichaelNumber([
-                // 4
-                // 11, 37, 61,
-                // 97, 163, 173,
-                // 211, 1483, 4297, 7741
-                // 11,37,61,97,163,173,211,1483,4297,7741
-//             // ]);
-
-//             console.log(query);
-//             db.disconnect();
-
-//         } catch (error) {
-//             console.log("Threw error:", error.message);
-//         }
-//     }
-// }
-
-// testerMethod();
