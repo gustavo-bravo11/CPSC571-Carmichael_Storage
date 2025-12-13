@@ -41,7 +41,7 @@ IMG_DIR = "visualizations/" + DATE
 ONE_TABLE_FILENAME = "one_table_results.txt"
 MULTI_TABLE_FILENAME = "multi_table_results.txt"
 MONGO_COLLECTION_FILENAME = "mongodb_results.txt"
-TIMESTAMP_FORMAT = "%Y-%m-%d_%H:%M:%S.%f"
+TIMESTAMP_FORMAT = "%Y-%m-%d_%H-%M-%S-%f"
 TEST_BASELINE_MS = 265000
 
 image_counter = 0

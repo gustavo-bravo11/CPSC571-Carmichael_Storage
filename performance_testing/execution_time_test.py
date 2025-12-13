@@ -78,7 +78,7 @@ def execute_tests() -> None:
 
     The query output of the analyze queries is combined and then saved onto a master text file.
     """
-    read_time = str(datetime.now()).replace(" ", "_")
+    read_time = str(datetime.now()).replace(" ", "_").replace(":", "-").replace(".", "-")
     output_path = OUTPUT_DIR + "/" + read_time
     os.makedirs(output_path, exist_ok=True)
 
