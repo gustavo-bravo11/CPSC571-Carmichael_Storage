@@ -1,6 +1,6 @@
 app/
 ├── backend/
-│   ├── server.js              # Express server (entry point)
+│   ├── server.js                   # Express server (entry point)
 │   ├── db/
 │   │   ├── DatabaseInterface.js    # Abstract interface
 │   │   ├── OneTableDB.js           # PostgreSQL implementation

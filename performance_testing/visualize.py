@@ -452,6 +452,8 @@ def main():
 
     transform_data(results_df)
 
+    results_df.to_csv(DATE + "_results.csv", index=False)
+    print("Results Exported to CSV:", DATE + "_results.csv")
     display_summary_stats(results_df)
 
     # Create some visualizations!
