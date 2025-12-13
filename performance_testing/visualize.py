@@ -36,7 +36,8 @@ from matplotlib.axes import Axes
 from matplotlib.colors import to_rgba
 
 TEST_DIR = "database_results"
-IMG_DIR = "visualizations"
+DATE = "2025-12-12"
+IMG_DIR = "visualizations/" + DATE
 ONE_TABLE_FILENAME = "one_table_results.txt"
 MULTI_TABLE_FILENAME = "multi_table_results.txt"
 MONGO_COLLECTION_FILENAME = "mongodb_results.txt"
@@ -255,6 +256,10 @@ def collect_and_parse_data() -> list[list[dict]]:
         if not item.is_dir():
             continue
         
+        # Only take the results from the day were interested on
+        if not item.name.startswith(DATE):
+            continue
+        
         # Add the results from both schemata
         results += parse_SQL_explain(item / ONE_TABLE_FILENAME, item.name, "One Table")
         results += parse_SQL_explain(item / MULTI_TABLE_FILENAME, item.name, "Multi Table")
@@ -299,13 +304,22 @@ def parse_MDB_explain(
             case_num = int(case_match.group(1)) if case_match else None
 
             json_start = case_block.find('\n', case_block.find('='))
-            data = json.load(case_block[json_start:].strip()) if json_start else None
+            data = json.loads(case_block[json_start:].strip()) if json_start else None
 
             planning_time = float(data['queryPlanner']['optimizationTimeMillis']) if data else None
             execution_time = float(data['executionStats']['executionTimeMillis']) if data else None
 
-            filter_data = data['executionStats']['executionStages']['filter']['$and'] if data else None
-            factors_str = ','.join(str(e['factor']['$eq']) for e in filter_data) if filter_data else None
+            parsed_query = data['queryPlanner']['parsedQuery'] if data else None
+
+            if parsed_query:
+                if '$and' in parsed_query:
+                    factors_str = ','.join(
+                        str(e['factors']['$eq']) for e in parsed_query['$and']
+                    )
+                else:
+                    factors_str = str(parsed_query['factors']['$eq'])
+            else:
+                factors_str = None
 
             results.append({
                 "schema": testing_schema,
@@ -430,6 +444,8 @@ def main():
     """
     print("Analyzing database tests ran.")
     print(f"Comparing against the baseline of {TEST_BASELINE_MS:,}ms.")
+
+    Path(IMG_DIR).mkdir(parents=True, exist_ok=True)
     results_df = pd.DataFrame(collect_and_parse_data())
 
     transform_data(results_df)

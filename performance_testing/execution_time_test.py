@@ -42,6 +42,7 @@ TEST_DIR = "test_cases"
 NUMBER_OF_EXECUTIONS = 3
 OUTPUT_DIR = "database_results"
 
+
 load_dotenv(override=True)
 db_client = PSQLClient()
 mongo_client = MongoClient(
@@ -63,17 +64,16 @@ def main () -> None:
         mongo_client.close()
         
 
-
 def execute_tests() -> None:
     """
-    Test scrips. For SQL databases, it will run EXPLAIN ANALYZE queries.
+    Test scrips. For databases, it will run EXPLAIN ANALYZE or .explain() queries.
     The scripts are ran and saved to a text file.
 
     We first create a directory for the tests based on the time this function begins.
 
     Then we create the files we will write to, this depends on how many tests we are running.
 
-    For the current execution, there will be two tests ran every time. These tests run
+    For the current execution, there will be three tests ran every time. These tests run
     through all the test cases located in the TEST_DIR constant.
 
     The query output of the analyze queries is combined and then saved onto a master text file.

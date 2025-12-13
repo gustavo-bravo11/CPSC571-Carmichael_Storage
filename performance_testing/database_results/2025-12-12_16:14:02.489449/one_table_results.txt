@@ -1,0 +1,1232 @@
+================================================================================
+TEST_NAME: 1_primes.txt
+================================================================================
+TEST_CASE_NUM: 1
+================================================================================
+Gather  (cost=1000.00..7217524.97 rows=5436003 width=14) (actual time=68.933..18442.555 rows=5405163.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=1328861 read=3738714
+  ->  Parallel Seq Scan on carmichael_number  (cost=0.00..6672924.67 rows=2265001 width=14) (actual time=68.320..18089.254 rows=1801721.00 loops=3)
+        Filter: (factors @> '{5}'::bigint[])
+        Rows Removed by Filter: 100958259
+        Buffers: shared hit=1328861 read=3738714
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.551 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.682 ms (Deform 0.237 ms), Inlining 162.751 ms, Optimization 22.505 ms, Emission 18.044 ms, Total 203.982 ms
+Execution Time: 18684.119 ms
+================================================================================
+TEST_CASE_NUM: 2
+================================================================================
+Seq Scan on carmichael_number  (cost=0.00..8920799.20 rows=39552315 width=14) (actual time=68.135..53910.737 rows=40387663.00 loops=1)
+  Filter: (factors @> '{11}'::bigint[])
+  Rows Removed by Filter: 267892276
+  Buffers: shared hit=1329457 read=3737850
+Planning:
+  Buffers: shared hit=153
+Planning Time: 0.839 ms
+JIT:
+  Functions: 4
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.184 ms (Deform 0.078 ms), Inlining 54.218 ms, Optimization 7.564 ms, Emission 6.062 ms, Total 68.027 ms
+Execution Time: 55442.641 ms
+================================================================================
+TEST_CASE_NUM: 3
+================================================================================
+Seq Scan on carmichael_number  (cost=0.00..8920799.20 rows=46283092 width=14) (actual time=68.792..54946.130 rows=47358409.00 loops=1)
+  Filter: (factors @> '{29}'::bigint[])
+  Rows Removed by Filter: 260921530
+  Buffers: shared hit=1329745 read=3737562
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.502 ms
+JIT:
+  Functions: 4
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.303 ms (Deform 0.132 ms), Inlining 54.421 ms, Optimization 7.589 ms, Emission 6.108 ms, Total 68.421 ms
+Execution Time: 56740.442 ms
+================================================================================
+TEST_CASE_NUM: 4
+================================================================================
+Gather  (cost=19994.32..6330704.34 rows=2805348 width=14) (actual time=459.391..13899.191 rows=2918405.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=290379 read=1936417
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=18994.32..6049169.54 rows=1168895 width=14) (actual time=437.382..13486.740 rows=972801.67 loops=3)
+        Recheck Cond: (factors @> '{83}'::bigint[])
+        Rows Removed by Index Recheck: 43306533
+        Heap Blocks: exact=14333 lossy=715173
+        Buffers: shared hit=290379 read=1936417
+        Worker 0:  Heap Blocks: exact=14962 lossy=741326
+        Worker 1:  Heap Blocks: exact=14399 lossy=725780
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..18292.98 rows=2805348 width=0) (actual time=379.001..379.001 rows=2918405.00 loops=1)
+              Index Cond: (factors @> '{83}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=674
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.531 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.699 ms (Deform 0.242 ms), Inlining 163.876 ms, Optimization 22.635 ms, Emission 18.140 ms, Total 205.350 ms
+Execution Time: 14050.941 ms
+================================================================================
+TEST_CASE_NUM: 5
+================================================================================
+Gather  (cost=1000.00..7153813.77 rows=4798891 width=14) (actual time=70.217..18472.327 rows=4762336.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=1526910 read=3540665
+  ->  Parallel Seq Scan on carmichael_number  (cost=0.00..6672924.67 rows=1999538 width=14) (actual time=68.365..18171.434 rows=1587445.33 loops=3)
+        Filter: (factors @> '{251}'::bigint[])
+        Rows Removed by Filter: 101172534
+        Buffers: shared hit=1526910 read=3540665
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.505 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.694 ms (Deform 0.239 ms), Inlining 162.561 ms, Optimization 22.658 ms, Emission 18.133 ms, Total 204.046 ms
+Execution Time: 18694.198 ms
+================================================================================
+TEST_CASE_NUM: 6
+================================================================================
+Gather  (cost=6309.74..3695188.69 rows=780976 width=14) (actual time=211.807..4690.796 rows=787572.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=162424 read=567984
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=5309.74..3616091.09 rows=325407 width=14) (actual time=191.467..4477.849 rows=262524.00 loops=3)
+        Recheck Cond: (factors @> '{733}'::bigint[])
+        Rows Removed by Index Recheck: 14106082
+        Heap Blocks: exact=7246 lossy=233260
+        Buffers: shared hit=162424 read=567984
+        Worker 0:  Heap Blocks: exact=7425 lossy=234144
+        Worker 1:  Heap Blocks: exact=7662 lossy=240290
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..5114.50 rows=780976 width=0) (actual time=137.399..137.399 rows=787572.00 loops=1)
+              Index Cond: (factors @> '{733}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=5 read=227
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.525 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.684 ms (Deform 0.244 ms), Inlining 160.595 ms, Optimization 22.704 ms, Emission 18.178 ms, Total 202.161 ms
+Execution Time: 4752.180 ms
+================================================================================
+TEST_CASE_NUM: 7
+================================================================================
+Gather  (cost=1585.21..1265564.91 rows=82208 width=14) (actual time=103.844..266.530 rows=55592.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=16221 read=39140
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=585.21..1256344.11 rows=34253 width=14) (actual time=82.417..208.937 rows=18530.67 loops=3)
+        Recheck Cond: (factors @> '{2203}'::bigint[])
+        Heap Blocks: exact=18646
+        Buffers: shared hit=16221 read=39140
+        Worker 0:  Heap Blocks: exact=18471
+        Worker 1:  Heap Blocks: exact=18177
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..564.66 rows=82208 width=0) (actual time=26.251..26.251 rows=55592.00 loops=1)
+              Index Cond: (factors @> '{2203}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=4 read=23
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.524 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.697 ms (Deform 0.241 ms), Inlining 162.151 ms, Optimization 22.582 ms, Emission 18.431 ms, Total 203.862 ms
+Execution Time: 298.522 ms
+================================================================================
+TEST_CASE_NUM: 8
+================================================================================
+Gather  (cost=1585.21..1265564.91 rows=82208 width=14) (actual time=79.556..167.042 rows=21748.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=6630 read=15128
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=585.21..1256344.11 rows=34253 width=14) (actual time=71.418..127.317 rows=7249.33 loops=3)
+        Recheck Cond: (factors @> '{6563}'::bigint[])
+        Heap Blocks: exact=9055
+        Buffers: shared hit=6630 read=15128
+        Worker 0:  Heap Blocks: exact=6812
+        Worker 1:  Heap Blocks: exact=5836
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..564.66 rows=82208 width=0) (actual time=8.368..8.368 rows=21748.00 loops=1)
+              Index Cond: (factors @> '{6563}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=4 read=11
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.519 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.759 ms (Deform 0.244 ms), Inlining 161.330 ms, Optimization 22.543 ms, Emission 18.037 ms, Total 202.668 ms
+Execution Time: 198.013 ms
+================================================================================
+TEST_CASE_NUM: 9
+================================================================================
+Gather  (cost=1585.21..1265564.91 rows=82208 width=14) (actual time=75.619..150.277 rows=13759.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=4400 read=9392
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=585.21..1256344.11 rows=34253 width=14) (actual time=72.939..111.914 rows=4586.33 loops=3)
+        Recheck Cond: (factors @> '{19687}'::bigint[])
+        Heap Blocks: exact=8209
+        Buffers: shared hit=4400 read=9392
+        Worker 0:  Heap Blocks: exact=3445
+        Worker 1:  Heap Blocks: exact=2086
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..564.66 rows=82208 width=0) (actual time=5.057..5.058 rows=13759.00 loops=1)
+              Index Cond: (factors @> '{19687}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=4 read=8
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.523 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.696 ms (Deform 0.242 ms), Inlining 166.602 ms, Optimization 24.674 ms, Emission 19.738 ms, Total 211.709 ms
+Execution Time: 180.331 ms
+================================================================================
+TEST_CASE_NUM: 10
+================================================================================
+Gather  (cost=1585.21..1265564.91 rows=82208 width=14) (actual time=70.175..107.640 rows=1837.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=577 read=1304
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=585.21..1256344.11 rows=34253 width=14) (actual time=68.569..74.500 rows=612.33 loops=3)
+        Recheck Cond: (factors @> '{59051}'::bigint[])
+        Heap Blocks: exact=1829
+        Buffers: shared hit=577 read=1304
+        Worker 0:  Heap Blocks: exact=3
+        Worker 1:  Heap Blocks: exact=3
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..564.66 rows=82208 width=0) (actual time=1.415..1.416 rows=1837.00 loops=1)
+              Index Cond: (factors @> '{59051}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=4 read=2
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.525 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.852 ms (Deform 0.312 ms), Inlining 162.284 ms, Optimization 22.561 ms, Emission 18.212 ms, Total 203.909 ms
+Execution Time: 137.693 ms
+================================================================================
+TEST_CASE_NUM: 11
+================================================================================
+Gather  (cost=1585.21..1265564.91 rows=82208 width=14) (actual time=71.420..106.127 rows=175.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=81 read=139
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=585.21..1256344.11 rows=34253 width=14) (actual time=68.709..69.701 rows=58.33 loops=3)
+        Recheck Cond: (factors @> '{177167}'::bigint[])
+        Heap Blocks: exact=169
+        Buffers: shared hit=81 read=139
+        Worker 0:  Heap Blocks: exact=3
+        Worker 1:  Heap Blocks: exact=3
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..564.66 rows=82208 width=0) (actual time=1.072..1.072 rows=175.00 loops=1)
+              Index Cond: (factors @> '{177167}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=3 read=2
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.537 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.829 ms (Deform 0.385 ms), Inlining 163.414 ms, Optimization 22.536 ms, Emission 18.053 ms, Total 204.832 ms
+Execution Time: 135.676 ms
+================================================================================
+TEST_CASE_NUM: 12
+================================================================================
+Gather  (cost=1585.21..1265564.91 rows=82208 width=14) (actual time=69.690..105.962 rows=726.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=261 read=511
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=585.21..1256344.11 rows=34253 width=14) (actual time=68.257..70.982 rows=242.00 loops=3)
+        Recheck Cond: (factors @> '{531457}'::bigint[])
+        Heap Blocks: exact=720
+        Buffers: shared hit=261 read=511
+        Worker 0:  Heap Blocks: exact=3
+        Worker 1:  Heap Blocks: exact=3
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..564.66 rows=82208 width=0) (actual time=1.432..1.433 rows=726.00 loops=1)
+              Index Cond: (factors @> '{531457}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=3 read=3
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.528 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 1.020 ms (Deform 0.493 ms), Inlining 161.662 ms, Optimization 22.601 ms, Emission 18.028 ms, Total 203.311 ms
+Execution Time: 135.897 ms
+================================================================================
+TEST_CASE_NUM: 13
+================================================================================
+Gather  (cost=1585.21..1265564.91 rows=82208 width=14) (actual time=69.118..107.076 rows=62.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=69 read=38
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=585.21..1256344.11 rows=34253 width=14) (actual time=67.950..68.390 rows=20.67 loops=3)
+        Recheck Cond: (factors @> '{1594331}'::bigint[])
+        Heap Blocks: exact=56
+        Buffers: shared hit=69 read=38
+        Worker 0:  Heap Blocks: exact=3
+        Worker 1:  Heap Blocks: exact=3
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..564.66 rows=82208 width=0) (actual time=1.041..1.042 rows=62.00 loops=1)
+              Index Cond: (factors @> '{1594331}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=3 read=2
+Planning:
+  Buffers: shared hit=153
+Planning Time: 0.900 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.711 ms (Deform 0.241 ms), Inlining 161.119 ms, Optimization 22.611 ms, Emission 17.989 ms, Total 202.431 ms
+Execution Time: 123.949 ms
+================================================================================
+TEST_CASE_NUM: 14
+================================================================================
+Gather  (cost=1585.21..1265564.91 rows=82208 width=14) (actual time=70.346..105.403 rows=4.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=43 read=6
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=585.21..1256344.11 rows=34253 width=14) (actual time=45.927..45.979 rows=1.33 loops=3)
+        Recheck Cond: (factors @> '{4782971}'::bigint[])
+        Heap Blocks: exact=3
+        Buffers: shared hit=43 read=6
+        Worker 0:  Heap Blocks: exact=1
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..564.66 rows=82208 width=0) (actual time=1.042..1.043 rows=4.00 loops=1)
+              Index Cond: (factors @> '{4782971}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=3 read=2
+Planning:
+  Buffers: shared hit=153
+Planning Time: 0.871 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.703 ms (Deform 0.247 ms), Inlining 108.576 ms, Optimization 15.066 ms, Emission 12.087 ms, Total 136.432 ms
+Execution Time: 122.880 ms
+================================================================================
+TEST_CASE_NUM: 15
+================================================================================
+Gather  (cost=1585.21..1265564.91 rows=82208 width=14) (actual time=69.704..106.190 rows=7.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=44 read=8
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=585.21..1256344.11 rows=34253 width=14) (actual time=68.214..68.311 rows=2.33 loops=3)
+        Recheck Cond: (factors @> '{14348909}'::bigint[])
+        Heap Blocks: exact=3
+        Buffers: shared hit=44 read=8
+        Worker 0:  Heap Blocks: exact=3
+        Worker 1:  Heap Blocks: exact=1
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..564.66 rows=82208 width=0) (actual time=1.046..1.047 rows=7.00 loops=1)
+              Index Cond: (factors @> '{14348909}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=3 read=2
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.517 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.687 ms (Deform 0.242 ms), Inlining 162.042 ms, Optimization 22.543 ms, Emission 18.012 ms, Total 203.285 ms
+Execution Time: 136.020 ms
+================================================================================
+TEST_NAME: 2_composites.txt
+================================================================================
+TEST_CASE_NUM: 1
+================================================================================
+Gather  (cost=1000.00..7298192.07 rows=6242674 width=14) (actual time=68.918..18339.689 rows=6440986.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=1508937 read=3558638
+  ->  Parallel Seq Scan on carmichael_number  (cost=0.00..6672924.67 rows=2601114 width=14) (actual time=68.175..18024.411 rows=2146995.33 loops=3)
+        Filter: (factors @> '{11,13}'::bigint[])
+        Rows Removed by Filter: 100612984
+        Buffers: shared hit=1508937 read=3558638
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.554 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.729 ms (Deform 0.252 ms), Inlining 162.323 ms, Optimization 22.565 ms, Emission 18.072 ms, Total 203.688 ms
+Execution Time: 18618.849 ms
+================================================================================
+TEST_CASE_NUM: 2
+================================================================================
+Gather  (cost=1000.00..7244976.67 rows=5710520 width=14) (actual time=68.985..18321.681 rows=5560222.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=1507048 read=3560527
+  ->  Parallel Seq Scan on carmichael_number  (cost=0.00..6672924.67 rows=2379383 width=14) (actual time=68.415..18016.406 rows=1853407.33 loops=3)
+        Filter: (factors @> '{19,23}'::bigint[])
+        Rows Removed by Filter: 100906572
+        Buffers: shared hit=1507048 read=3560527
+Planning:
+  Buffers: shared hit=153
+Planning Time: 0.853 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.834 ms (Deform 0.247 ms), Inlining 162.406 ms, Optimization 22.863 ms, Emission 18.298 ms, Total 204.402 ms
+Execution Time: 18554.846 ms
+================================================================================
+TEST_CASE_NUM: 3
+================================================================================
+Gather  (cost=1000.00..7568283.37 rows=8943587 width=14) (actual time=69.105..18802.803 rows=9085628.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=1505603 read=3561972
+  ->  Parallel Seq Scan on carmichael_number  (cost=0.00..6672924.67 rows=3726495 width=14) (actual time=68.488..18426.157 rows=3028542.67 loops=3)
+        Filter: (factors @> '{31,37}'::bigint[])
+        Rows Removed by Filter: 99731437
+        Buffers: shared hit=1505603 read=3561972
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.549 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.688 ms (Deform 0.240 ms), Inlining 162.967 ms, Optimization 22.532 ms, Emission 18.063 ms, Total 204.250 ms
+Execution Time: 19177.419 ms
+================================================================================
+TEST_CASE_NUM: 4
+================================================================================
+Gather  (cost=3957.42..2820312.00 rows=429369 width=14) (actual time=890.094..3136.400 rows=373783.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=101317 read=270830
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=2957.42..2776375.10 rows=178904 width=14) (actual time=872.061..3000.529 rows=124594.33 loops=3)
+        Recheck Cond: (factors @> '{53,59}'::bigint[])
+        Rows Removed by Index Recheck: 6920305
+        Heap Blocks: exact=4252 lossy=115292
+        Buffers: shared hit=101317 read=270830
+        Worker 0:  Heap Blocks: exact=4401 lossy=115757
+        Worker 1:  Heap Blocks: exact=4409 lossy=116432
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..2850.08 rows=429369 width=0) (actual time=815.310..815.310 rows=373783.00 loops=1)
+              Index Cond: (factors @> '{53,59}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=6736 read=4719
+Planning:
+  Buffers: shared hit=153
+Planning Time: 0.861 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.673 ms (Deform 0.238 ms), Inlining 162.613 ms, Optimization 22.482 ms, Emission 18.039 ms, Total 203.808 ms
+Execution Time: 3169.641 ms
+================================================================================
+TEST_CASE_NUM: 5
+================================================================================
+Gather  (cost=13692.33..5443968.33 rows=1869565 width=14) (actual time=2343.150..11599.355 rows=1750000.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=236143 read=1263060
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=12692.33..5256011.83 rows=778985 width=14) (actual time=2335.650..11258.104 rows=583333.33 loops=3)
+        Recheck Cond: (factors @> '{97,101}'::bigint[])
+        Rows Removed by Index Recheck: 29036294
+        Heap Blocks: exact=7204 lossy=486499
+        Buffers: shared hit=236143 read=1263060
+        Worker 0:  Heap Blocks: exact=7483 lossy=492652
+        Worker 1:  Heap Blocks: exact=7238 lossy=482365
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..12224.94 rows=1869565 width=0) (actual time=2268.269..2268.269 rows=1750000.00 loops=1)
+              Index Cond: (factors @> '{97,101}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=7976 read=7637
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.535 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.690 ms (Deform 0.243 ms), Inlining 202.594 ms, Optimization 22.615 ms, Emission 18.021 ms, Total 243.920 ms
+Execution Time: 11702.716 ms
+================================================================================
+TEST_CASE_NUM: 6
+================================================================================
+Gather  (cost=4810.67..3164108.68 rows=555749 width=14) (actual time=1302.467..4153.701 rows=445965.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=118488 read=318371
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=3810.67..3107533.78 rows=231562 width=14) (actual time=1282.045..3964.945 rows=148655.00 loops=3)
+        Recheck Cond: (factors @> '{157,163}'::bigint[])
+        Rows Removed by Index Recheck: 8222798
+        Heap Blocks: exact=4617 lossy=137934
+        Buffers: shared hit=118488 read=318371
+        Worker 0:  Heap Blocks: exact=4838 lossy=137393
+        Worker 1:  Heap Blocks: exact=4748 lossy=137643
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..3671.73 rows=555749 width=0) (actual time=1228.959..1228.960 rows=445965.00 loops=1)
+              Index Cond: (factors @> '{157,163}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=4906 read=4631
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.538 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.695 ms (Deform 0.241 ms), Inlining 162.200 ms, Optimization 22.780 ms, Emission 18.062 ms, Total 203.736 ms
+Execution Time: 4201.350 ms
+================================================================================
+TEST_CASE_NUM: 7
+================================================================================
+Gather  (cost=3424.81..2581963.39 rows=350704 width=14) (actual time=845.457..2548.972 rows=292731.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=88847 read=205551
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=2424.81..2545892.99 rows=146127 width=14) (actual time=824.520..2422.750 rows=97577.00 loops=3)
+        Recheck Cond: (factors @> '{271,277}'::bigint[])
+        Rows Removed by Index Recheck: 4942099
+        Heap Blocks: exact=12042 lossy=82540
+        Buffers: shared hit=88847 read=205551
+        Worker 0:  Heap Blocks: exact=12345 lossy=82791
+        Worker 1:  Heap Blocks: exact=12385 lossy=82345
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..2337.13 rows=350704 width=0) (actual time=768.194..768.195 rows=292731.00 loops=1)
+              Index Cond: (factors @> '{271,277}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=5654 read=4147
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.566 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 1.170 ms (Deform 0.636 ms), Inlining 162.153 ms, Optimization 22.553 ms, Emission 18.290 ms, Total 204.166 ms
+Execution Time: 2591.856 ms
+================================================================================
+TEST_CASE_NUM: 8
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=64.10..6465.65 rows=1617 width=14) (actual time=59.138..70.389 rows=1559.00 loops=1)
+  Recheck Cond: (factors @> '{479,487}'::bigint[])
+  Heap Blocks: exact=1559
+  Buffers: shared hit=1233 read=1865
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..63.69 rows=1617 width=0) (actual time=58.843..58.844 rows=1559.00 loops=1)
+        Index Cond: (factors @> '{479,487}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=741 read=798
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.549 ms
+Execution Time: 70.555 ms
+================================================================================
+TEST_CASE_NUM: 9
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=194.67..80193.55 rows=20987 width=14) (actual time=168.537..268.596 rows=18843.00 loops=1)
+  Recheck Cond: (factors @> '{811,821}'::bigint[])
+  Heap Blocks: exact=18803
+  Buffers: shared hit=8224 read=14557
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..189.42 rows=20987 width=0) (actual time=165.906..165.906 rows=18843.00 loops=1)
+        Index Cond: (factors @> '{811,821}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=2442 read=1536
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.538 ms
+Execution Time: 269.838 ms
+================================================================================
+TEST_CASE_NUM: 10
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=74.67..11288.00 rows=2845 width=14) (actual time=70.251..85.209 rows=1874.00 loops=1)
+  Recheck Cond: (factors @> '{1409,1423}'::bigint[])
+  Heap Blocks: exact=1874
+  Buffers: shared hit=1109 read=1997
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..73.96 rows=2845 width=0) (actual time=70.002..70.003 rows=1874.00 loops=1)
+        Index Cond: (factors @> '{1409,1423}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=550 read=682
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.548 ms
+Execution Time: 85.401 ms
+================================================================================
+TEST_CASE_NUM: 11
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=67.39..8929.78 rows=2244 width=14) (actual time=62.962..71.572 rows=1096.00 loops=1)
+  Recheck Cond: (factors @> '{2437,2441}'::bigint[])
+  Heap Blocks: exact=1096
+  Buffers: shared hit=634 read=1218
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..66.83 rows=2244 width=0) (actual time=62.714..62.715 rows=1096.00 loops=1)
+        Index Cond: (factors @> '{2437,2441}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=311 read=445
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.545 ms
+Execution Time: 71.720 ms
+================================================================================
+TEST_CASE_NUM: 12
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=55.84..232.00 rows=44 width=14) (actual time=11.530..12.236 rows=19.00 loops=1)
+  Recheck Cond: (factors @> '{4211,4217}'::bigint[])
+  Heap Blocks: exact=19
+  Buffers: shared hit=94 read=104
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..55.83 rows=44 width=0) (actual time=11.462..11.463 rows=19.00 loops=1)
+        Index Cond: (factors @> '{4211,4217}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=85 read=94
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.537 ms
+Execution Time: 12.300 ms
+================================================================================
+TEST_CASE_NUM: 13
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=56.14..460.05 rows=101 width=14) (actual time=14.589..14.884 rows=12.00 loops=1)
+  Recheck Cond: (factors @> '{7297,7307}'::bigint[])
+  Heap Blocks: exact=12
+  Buffers: shared hit=145 read=156
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..56.12 rows=101 width=0) (actual time=14.442..14.443 rows=12.00 loops=1)
+        Index Cond: (factors @> '{7297,7307}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=143 read=146
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.540 ms
+Execution Time: 14.962 ms
+================================================================================
+TEST_CASE_NUM: 14
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=56.04..384.08 rows=82 width=14) (actual time=26.485..27.496 rows=40.00 loops=1)
+  Recheck Cond: (factors @> '{12637,12641}'::bigint[])
+  Heap Blocks: exact=40
+  Buffers: shared hit=119 read=176
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..56.02 rows=82 width=0) (actual time=26.291..26.291 rows=40.00 loops=1)
+        Index Cond: (factors @> '{12637,12641}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=109 read=146
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.553 ms
+Execution Time: 27.562 ms
+================================================================================
+TEST_CASE_NUM: 15
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=55.73..143.86 rows=22 width=14) (actual time=2.533..2.611 rows=2.00 loops=1)
+  Recheck Cond: (factors @> '{21871,21881}'::bigint[])
+  Heap Blocks: exact=2
+  Buffers: shared hit=41 read=44
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..55.72 rows=22 width=0) (actual time=2.369..2.370 rows=2.00 loops=1)
+        Index Cond: (factors @> '{21871,21881}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=41 read=42
+Planning:
+  Buffers: shared hit=153
+Planning Time: 0.849 ms
+Execution Time: 2.647 ms
+================================================================================
+TEST_NAME: 3_composites.txt
+================================================================================
+TEST_CASE_NUM: 1
+================================================================================
+Gather  (cost=7745.50..4112194.74 rows=985718 width=14) (actual time=4696.520..10712.646 rows=1079316.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=177821 read=838808
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=6745.50..4012622.94 rows=410716 width=14) (actual time=4674.900..10436.720 rows=359772.00 loops=3)
+        Recheck Cond: (factors @> '{11,13,17}'::bigint[])
+        Rows Removed by Index Recheck: 18674465
+        Heap Blocks: exact=11594 lossy=308788
+        Buffers: shared hit=177821 read=838808
+        Worker 0:  Heap Blocks: exact=11944 lossy=310640
+        Worker 1:  Heap Blocks: exact=12491 lossy=317395
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..6499.07 rows=985718 width=0) (actual time=4616.691..4616.692 rows=1079316.00 loops=1)
+              Index Cond: (factors @> '{11,13,17}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=23975 read=19653
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.521 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.874 ms (Deform 0.320 ms), Inlining 165.469 ms, Optimization 22.750 ms, Emission 18.299 ms, Total 207.391 ms
+Execution Time: 10788.858 ms
+================================================================================
+TEST_CASE_NUM: 2
+================================================================================
+Gather  (cost=7176.48..3947557.65 rows=901691 width=14) (actual time=3899.922..9279.890 rows=898153.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=214060 read=656458
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=6176.48..3856388.55 rows=375705 width=14) (actual time=3892.340..9005.950 rows=299384.33 loops=3)
+        Recheck Cond: (factors @> '{17,19,23}'::bigint[])
+        Rows Removed by Index Recheck: 16038771
+        Heap Blocks: exact=5956 lossy=264817
+        Buffers: shared hit=214060 read=656458
+        Worker 0:  Heap Blocks: exact=6120 lossy=271522
+        Worker 1:  Heap Blocks: exact=6100 lossy=269789
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..5951.06 rows=901691 width=0) (actual time=3824.459..3824.460 rows=898153.00 loops=1)
+              Index Cond: (factors @> '{17,19,23}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=33526 read=12539
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.529 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.689 ms (Deform 0.241 ms), Inlining 204.344 ms, Optimization 22.544 ms, Emission 18.037 ms, Total 245.615 ms
+Execution Time: 9348.964 ms
+================================================================================
+TEST_CASE_NUM: 3
+================================================================================
+Gather  (cost=6741.97..3816430.33 rows=837784 width=14) (actual time=3903.284..8415.764 rows=772224.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=202772 read=559528
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=5741.97..3731651.93 rows=349077 width=14) (actual time=3882.309..8154.632 rows=257408.00 loops=3)
+        Recheck Cond: (factors @> '{23,29,31}'::bigint[])
+        Rows Removed by Index Recheck: 13422058
+        Heap Blocks: exact=14244 lossy=232951
+        Buffers: shared hit=202772 read=559528
+        Worker 0:  Heap Blocks: exact=14019 lossy=220513
+        Worker 1:  Heap Blocks: exact=14106 lossy=220942
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..5532.52 rows=837784 width=0) (actual time=3823.120..3823.120 rows=772224.00 loops=1)
+              Index Cond: (factors @> '{23,29,31}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=30817 read=14559
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.530 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.759 ms (Deform 0.280 ms), Inlining 164.172 ms, Optimization 22.537 ms, Emission 18.486 ms, Total 205.954 ms
+Execution Time: 8479.134 ms
+================================================================================
+TEST_CASE_NUM: 4
+================================================================================
+Gather  (cost=10930.32..4900810.15 rows=1457208 width=14) (actual time=5478.433..13913.639 rows=1553320.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=257212 read=1131752
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=9930.32..4754089.35 rows=607170 width=14) (actual time=5457.027..13567.263 rows=517773.33 loops=3)
+        Recheck Cond: (factors @> '{31,37,41}'::bigint[])
+        Rows Removed by Index Recheck: 25797090
+        Heap Blocks: exact=14393 lossy=426767
+        Buffers: shared hit=257212 read=1131752
+        Worker 0:  Heap Blocks: exact=15017 lossy=442118
+        Worker 1:  Heap Blocks: exact=14779 lossy=428438
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..9566.02 rows=1457208 width=0) (actual time=5397.397..5397.398 rows=1553320.00 loops=1)
+              Index Cond: (factors @> '{31,37,41}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=32987 read=14316
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.523 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.705 ms (Deform 0.244 ms), Inlining 166.405 ms, Optimization 22.646 ms, Emission 18.517 ms, Total 208.274 ms
+Execution Time: 14010.733 ms
+================================================================================
+TEST_CASE_NUM: 5
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=187.11..62408.17 rows=16216 width=14) (actual time=925.674..992.014 rows=9875.00 loops=1)
+  Recheck Cond: (factors @> '{47,53,59}'::bigint[])
+  Heap Blocks: exact=9857
+  Buffers: shared hit=13671 read=13645
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..183.06 rows=16216 width=0) (actual time=924.328..924.328 rows=9875.00 loops=1)
+        Index Cond: (factors @> '{47,53,59}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=10705 read=6754
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.537 ms
+Execution Time: 992.696 ms
+================================================================================
+TEST_CASE_NUM: 6
+================================================================================
+Gather  (cost=3771.57..2729473.11 rows=398495 width=14) (actual time=3125.223..5001.055 rows=297681.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=95809 read=229551
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=2771.57..2688623.61 rows=166040 width=14) (actual time=3130.751..4847.895 rows=99227.00 loops=3)
+        Recheck Cond: (factors @> '{67,71,73}'::bigint[])
+        Rows Removed by Index Recheck: 4932398
+        Heap Blocks: exact=13980 lossy=83943
+        Buffers: shared hit=95809 read=229551
+        Worker 0:  Heap Blocks: exact=13779 lossy=81612
+        Worker 1:  Heap Blocks: exact=14087 lossy=81868
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..2671.95 rows=398495 width=0) (actual time=3045.169..3045.169 rows=297681.00 loops=1)
+              Index Cond: (factors @> '{67,71,73}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=20764 read=15178
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.540 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.845 ms (Deform 0.315 ms), Inlining 246.242 ms, Optimization 22.688 ms, Emission 18.077 ms, Total 287.852 ms
+Execution Time: 5044.098 ms
+================================================================================
+TEST_CASE_NUM: 7
+================================================================================
+Gather  (cost=1583.05..1170442.16 rows=74346 width=14) (actual time=1706.042..1862.374 rows=46756.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=28386 read=42684
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=583.05..1162007.56 rows=30978 width=14) (actual time=1684.231..1803.477 rows=15585.33 loops=3)
+        Recheck Cond: (factors @> '{97,101,103}'::bigint[])
+        Heap Blocks: exact=16179
+        Buffers: shared hit=28386 read=42684
+        Worker 0:  Heap Blocks: exact=15255
+        Worker 1:  Heap Blocks: exact=15091
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..564.46 rows=74346 width=0) (actual time=1628.177..1628.178 rows=46756.00 loops=1)
+              Index Cond: (factors @> '{97,101,103}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=14656 read=9849
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.547 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.690 ms (Deform 0.243 ms), Inlining 166.224 ms, Optimization 22.585 ms, Emission 18.070 ms, Total 207.570 ms
+Execution Time: 1893.843 ms
+================================================================================
+TEST_CASE_NUM: 8
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=175.01..53734.77 rows=13911 width=14) (actual time=1019.627..1061.762 rows=6410.00 loops=1)
+  Recheck Cond: (factors @> '{131,137,139}'::bigint[])
+  Heap Blocks: exact=6408
+  Buffers: shared hit=10702 read=10627
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..171.53 rows=13911 width=0) (actual time=1018.710..1018.711 rows=6410.00 loops=1)
+        Index Cond: (factors @> '{131,137,139}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=8844 read=6077
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.547 ms
+Execution Time: 1062.218 ms
+================================================================================
+TEST_CASE_NUM: 9
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=137.66..32675.04 rows=8369 width=14) (actual time=843.503..868.730 rows=4057.00 loops=1)
+  Recheck Cond: (factors @> '{191,193,197}'::bigint[])
+  Heap Blocks: exact=4055
+  Buffers: shared hit=9412 read=8328
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..135.57 rows=8369 width=0) (actual time=842.913..842.913 rows=4057.00 loops=1)
+        Index Cond: (factors @> '{191,193,197}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=8239 read=5446
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.566 ms
+Execution Time: 869.068 ms
+================================================================================
+TEST_CASE_NUM: 10
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=248.10..93925.27 rows=24690 width=14) (actual time=954.246..1055.501 rows=15054.00 loops=1)
+  Recheck Cond: (factors @> '{271,277,281}'::bigint[])
+  Heap Blocks: exact=15031
+  Buffers: shared hit=16795 read=18221
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..241.93 rows=24690 width=0) (actual time=952.116..952.116 rows=15054.00 loops=1)
+        Index Cond: (factors @> '{271,277,281}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=12387 read=7598
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.528 ms
+Execution Time: 1056.628 ms
+================================================================================
+TEST_NAME: 4_composites.txt
+================================================================================
+TEST_CASE_NUM: 1
+================================================================================
+Gather  (cost=2018.38..1694983.28 rows=135079 width=14) (actual time=4797.034..5480.315 rows=118003.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=73586 read=108860
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=1018.38..1680475.38 rows=56283 width=14) (actual time=4776.133..5393.854 rows=39334.33 loops=3)
+        Recheck Cond: (factors @> '{23,29,31,37}'::bigint[])
+        Rows Removed by Index Recheck: 1641056
+        Heap Blocks: exact=11334 lossy=27490
+        Buffers: shared hit=73586 read=108860
+        Worker 0:  Heap Blocks: exact=11696 lossy=27668
+        Worker 1:  Heap Blocks: exact=11481 lossy=26992
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..984.61 rows=135079 width=0) (actual time=4719.517..4719.517 rows=118003.00 loops=1)
+              Index Cond: (factors @> '{23,29,31,37}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=39277 read=26359
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.537 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.699 ms (Deform 0.240 ms), Inlining 162.382 ms, Optimization 22.607 ms, Emission 18.127 ms, Total 203.815 ms
+Execution Time: 5514.623 ms
+================================================================================
+TEST_CASE_NUM: 2
+================================================================================
+Gather  (cost=2585.67..2109122.88 rows=218776 width=14) (actual time=6280.584..7488.684 rows=232050.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=238884 read=54778
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=1585.67..2086245.28 rows=91157 width=14) (actual time=6259.618..7351.916 rows=77350.00 loops=3)
+        Recheck Cond: (factors @> '{29,31,37,41}'::bigint[])
+        Rows Removed by Index Recheck: 3614817
+        Heap Blocks: exact=15201 lossy=60281
+        Buffers: shared hit=238884 read=54778
+        Worker 0:  Heap Blocks: exact=15429 lossy=59645
+        Worker 1:  Heap Blocks: exact=15406 lossy=61046
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..1530.97 rows=218776 width=0) (actual time=6200.873..6200.874 rows=232050.00 loops=1)
+              Index Cond: (factors @> '{29,31,37,41}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=59413 read=7092
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.540 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.686 ms (Deform 0.238 ms), Inlining 162.482 ms, Optimization 22.695 ms, Emission 18.249 ms, Total 204.111 ms
+Execution Time: 7526.063 ms
+================================================================================
+TEST_CASE_NUM: 3
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=397.74..162449.95 rows=43574 width=14) (actual time=2397.231..2579.750 rows=32184.00 loops=1)
+  Recheck Cond: (factors @> '{37,41,43,47}'::bigint[])
+  Heap Blocks: exact=32066
+  Buffers: shared hit=68361 read=26192
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..386.84 rows=43574 width=0) (actual time=2389.370..2389.371 rows=32184.00 loops=1)
+        Index Cond: (factors @> '{37,41,43,47}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=56144 read=6343
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.535 ms
+JIT:
+  Functions: 4
+  Options: Inlining false, Optimization false, Expressions true, Deforming true
+  Timing: Generation 0.334 ms (Deform 0.151 ms), Inlining 0.000 ms, Optimization 0.243 ms, Emission 2.783 ms, Total 3.359 ms
+Execution Time: 2611.652 ms
+================================================================================
+TEST_CASE_NUM: 4
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=119.35..9338.17 rows=2335 width=14) (actual time=1395.708..1401.819 rows=1180.00 loops=1)
+  Recheck Cond: (factors @> '{47,53,59,61}'::bigint[])
+  Heap Blocks: exact=1180
+  Buffers: shared hit=31607 read=6624
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..118.77 rows=2335 width=0) (actual time=1395.570..1395.571 rows=1180.00 loops=1)
+        Index Cond: (factors @> '{47,53,59,61}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=30427 read=6624
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.541 ms
+Execution Time: 1401.992 ms
+================================================================================
+TEST_CASE_NUM: 5
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=494.91..211244.97 rows=57370 width=14) (actual time=3915.094..4079.226 rows=42150.00 loops=1)
+  Recheck Cond: (factors @> '{61,67,71,73}'::bigint[])
+  Heap Blocks: exact=41983
+  Buffers: shared hit=96687
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..480.57 rows=57370 width=0) (actual time=3906.045..3906.046 rows=42150.00 loops=1)
+        Index Cond: (factors @> '{61,67,71,73}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=54704
+Planning:
+  Buffers: shared hit=153
+Planning Time: 0.846 ms
+JIT:
+  Functions: 4
+  Options: Inlining false, Optimization false, Expressions true, Deforming true
+  Timing: Generation 0.180 ms (Deform 0.079 ms), Inlining 0.000 ms, Optimization 0.243 ms, Emission 2.758 ms, Total 3.180 ms
+Execution Time: 4098.656 ms
+================================================================================
+TEST_CASE_NUM: 6
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=112.72..4367.35 rows=1072 width=14) (actual time=913.349..917.606 rows=502.00 loops=1)
+  Recheck Cond: (factors @> '{79,83,89,97}'::bigint[])
+  Heap Blocks: exact=502
+  Buffers: shared hit=25881 read=7604
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..112.45 rows=1072 width=0) (actual time=913.134..913.135 rows=502.00 loops=1)
+        Index Cond: (factors @> '{79,83,89,97}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=25751 read=7232
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.567 ms
+Execution Time: 917.728 ms
+================================================================================
+TEST_CASE_NUM: 7
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=114.57..5756.76 rows=1424 width=14) (actual time=882.348..891.836 rows=1154.00 loops=1)
+  Recheck Cond: (factors @> '{107,109,113,127}'::bigint[])
+  Heap Blocks: exact=1154
+  Buffers: shared hit=25430 read=14007
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..114.22 rows=1424 width=0) (actual time=882.103..882.103 rows=1154.00 loops=1)
+        Index Cond: (factors @> '{107,109,113,127}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=25125 read=13158
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.535 ms
+Execution Time: 891.998 ms
+================================================================================
+TEST_NAME: 5_composites.txt
+================================================================================
+TEST_CASE_NUM: 1
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=135.97..2512.00 rows=597 width=14) (actual time=1759.268..1760.997 rows=198.00 loops=1)
+  Recheck Cond: (factors @> '{53,59,61,67,71}'::bigint[])
+  Heap Blocks: exact=198
+  Buffers: shared hit=58404 read=135
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..135.82 rows=597 width=0) (actual time=1759.067..1759.067 rows=198.00 loops=1)
+        Index Cond: (factors @> '{53,59,61,67,71}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=58337 read=4
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.539 ms
+Execution Time: 1761.078 ms
+================================================================================
+TEST_CASE_NUM: 2
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=133.97..996.44 rows=216 width=14) (actual time=1202.187..1202.596 rows=49.00 loops=1)
+  Recheck Cond: (factors @> '{67,71,73,79,83}'::bigint[])
+  Heap Blocks: exact=49
+  Buffers: shared hit=55124
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..133.92 rows=216 width=0) (actual time=1202.150..1202.151 rows=49.00 loops=1)
+        Index Cond: (factors @> '{67,71,73,79,83}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=55075
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.550 ms
+Execution Time: 1202.677 ms
+================================================================================
+TEST_CASE_NUM: 3
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=133.22..421.30 rows=72 width=14) (actual time=1045.740..1045.842 rows=17.00 loops=1)
+  Recheck Cond: (factors @> '{79,83,89,97,101}'::bigint[])
+  Heap Blocks: exact=17
+  Buffers: shared hit=42991
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..133.20 rows=72 width=0) (actual time=1045.714..1045.714 rows=17.00 loops=1)
+        Index Cond: (factors @> '{79,83,89,97,101}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=42974
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.545 ms
+Execution Time: 1045.904 ms
+================================================================================
+TEST_NAME: 6_2_unbalanced.txt
+================================================================================
+TEST_CASE_NUM: 1
+================================================================================
+Gather  (cost=3485.60..2611140.37 rows=359926 width=14) (actual time=699.001..3281.366 rows=418496.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=103718 read=316627
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=2485.60..2574147.77 rows=149969 width=14) (actual time=678.089..3105.584 rows=139498.67 loops=3)
+        Recheck Cond: (factors @> '{11,83}'::bigint[])
+        Rows Removed by Index Recheck: 7576925
+        Heap Blocks: exact=7430 lossy=130288
+        Buffers: shared hit=103718 read=316627
+        Worker 0:  Heap Blocks: exact=7362 lossy=124805
+        Worker 1:  Heap Blocks: exact=7385 lossy=124717
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..2395.62 rows=359926 width=0) (actual time=624.482..624.483 rows=418496.00 loops=1)
+              Index Cond: (factors @> '{11,83}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=12321 read=5888
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.564 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.692 ms (Deform 0.240 ms), Inlining 161.086 ms, Optimization 22.611 ms, Emission 18.114 ms, Total 202.504 ms
+Execution Time: 3325.500 ms
+================================================================================
+TEST_CASE_NUM: 2
+================================================================================
+Gather  (cost=1677.29..1372287.53 rows=92487 width=14) (actual time=459.572..939.832 rows=88378.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=36268 read=72133
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=677.29..1362038.83 rows=38536 width=14) (actual time=438.845..861.670 rows=29459.33 loops=3)
+        Recheck Cond: (factors @> '{17,227}'::bigint[])
+        Rows Removed by Index Recheck: 939952
+        Heap Blocks: exact=13649 lossy=15858
+        Buffers: shared hit=36268 read=72133
+        Worker 0:  Heap Blocks: exact=13369 lossy=15480
+        Worker 1:  Heap Blocks: exact=13645 lossy=15568
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..654.17 rows=92487 width=0) (actual time=382.184..382.185 rows=88378.00 loops=1)
+              Index Cond: (factors @> '{17,227}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=13669 read=7014
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.545 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.702 ms (Deform 0.250 ms), Inlining 162.939 ms, Optimization 22.718 ms, Emission 18.204 ms, Total 204.564 ms
+Execution Time: 971.381 ms
+================================================================================
+TEST_CASE_NUM: 3
+================================================================================
+Gather  (cost=1844.43..1576502.00 rows=117251 width=14) (actual time=478.318..1177.420 rows=113175.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=48973 read=83667
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=844.43..1563776.90 rows=48855 width=14) (actual time=461.427..1086.756 rows=37725.00 loops=3)
+        Recheck Cond: (factors @> '{29,733}'::bigint[])
+        Rows Removed by Index Recheck: 1654900
+        Heap Blocks: exact=10851 lossy=29359
+        Buffers: shared hit=48973 read=83667
+        Worker 0:  Heap Blocks: exact=9527 lossy=28712
+        Worker 1:  Heap Blocks: exact=8868 lossy=24638
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..815.11 rows=117251 width=0) (actual time=400.995..400.996 rows=113175.00 loops=1)
+              Index Cond: (factors @> '{29,733}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=20309 read=227
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.547 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.779 ms (Deform 0.244 ms), Inlining 175.903 ms, Optimization 24.980 ms, Emission 19.893 ms, Total 221.556 ms
+Execution Time: 1212.515 ms
+================================================================================
+TEST_CASE_NUM: 4
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=486.67..234426.85 rows=64035 width=14) (actual time=233.371..465.703 rows=41049.00 loops=1)
+  Recheck Cond: (factors @> '{47,2129}'::bigint[])
+  Heap Blocks: exact=40889
+  Buffers: shared hit=16811 read=30571
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..470.66 rows=64035 width=0) (actual time=224.420..224.421 rows=41049.00 loops=1)
+        Index Cond: (factors @> '{47,2129}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=6086 read=407
+Planning:
+  Buffers: shared hit=153
+Planning Time: 0.857 ms
+JIT:
+  Functions: 4
+  Options: Inlining false, Optimization false, Expressions true, Deforming true
+  Timing: Generation 0.184 ms (Deform 0.082 ms), Inlining 0.000 ms, Optimization 0.241 ms, Emission 2.874 ms, Total 3.299 ms
+Execution Time: 490.901 ms
+================================================================================
+TEST_CASE_NUM: 5
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=59.54..3033.62 rows=748 width=14) (actual time=40.458..42.351 rows=165.00 loops=1)
+  Recheck Cond: (factors @> '{83,6563}'::bigint[])
+  Heap Blocks: exact=165
+  Buffers: shared hit=1409 read=111
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..59.35 rows=748 width=0) (actual time=40.276..40.276 rows=165.00 loops=1)
+        Index Cond: (factors @> '{83,6563}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=1344 read=11
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.538 ms
+Execution Time: 42.418 ms
+================================================================================
+TEST_CASE_NUM: 6
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=65.03..7162.19 rows=1794 width=14) (actual time=50.594..56.186 rows=626.00 loops=1)
+  Recheck Cond: (factors @> '{149,19603}'::bigint[])
+  Heap Blocks: exact=626
+  Buffers: shared hit=855 read=1189
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..64.58 rows=1794 width=0) (actual time=50.504..50.505 rows=626.00 loops=1)
+        Index Cond: (factors @> '{149,19603}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=689 read=729
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.622 ms
+Execution Time: 56.293 ms
+================================================================================
+TEST_CASE_NUM: 7
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=62.33..5137.30 rows=1280 width=14) (actual time=40.987..41.309 rows=39.00 loops=1)
+  Recheck Cond: (factors @> '{251,59051}'::bigint[])
+  Heap Blocks: exact=39
+  Buffers: shared hit=1710 read=889
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..62.01 rows=1280 width=0) (actual time=40.853..40.854 rows=39.00 loops=1)
+        Index Cond: (factors @> '{251,59051}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=1705 read=855
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.539 ms
+Execution Time: 41.387 ms
+================================================================================
+TEST_NAME: 7_3_unbalanced.txt
+================================================================================
+TEST_CASE_NUM: 1
+================================================================================
+Gather  (cost=1741.49..1425355.54 rows=98240 width=14) (actual time=1697.596..2375.936 rows=111023.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=54848 read=84210
+  ->  Parallel Bitmap Heap Scan on carmichael_number  (cost=741.49..1414531.54 rows=40933 width=14) (actual time=1676.125..2286.872 rows=37007.67 loops=3)
+        Recheck Cond: (factors @> '{11,101,1009}'::bigint[])
+        Rows Removed by Index Recheck: 1659226
+        Heap Blocks: exact=8694 lossy=27302
+        Buffers: shared hit=54848 read=84210
+        Worker 0:  Heap Blocks: exact=9059 lossy=28214
+        Worker 1:  Heap Blocks: exact=9040 lossy=27532
+        ->  Bitmap Index Scan on factors_index  (cost=0.00..716.93 rows=98240 width=0) (actual time=1622.366..1622.367 rows=111023.00 loops=1)
+              Index Cond: (factors @> '{11,101,1009}'::bigint[])
+              Index Searches: 1
+              Buffers: shared hit=27003 read=2065
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.556 ms
+JIT:
+  Functions: 12
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 0.738 ms (Deform 0.244 ms), Inlining 161.815 ms, Optimization 22.579 ms, Emission 18.034 ms, Total 203.166 ms
+Execution Time: 2410.811 ms
+================================================================================
+TEST_CASE_NUM: 2
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=83.18..1474.86 rows=349 width=14) (actual time=341.570..343.747 rows=309.00 loops=1)
+  Recheck Cond: (factors @> '{17,197,2749}'::bigint[])
+  Heap Blocks: exact=309
+  Buffers: shared hit=25259 read=266
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..83.10 rows=349 width=0) (actual time=341.367..341.368 rows=309.00 loops=1)
+        Index Cond: (factors @> '{17,197,2749}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=25181 read=35
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.537 ms
+Execution Time: 343.824 ms
+================================================================================
+TEST_CASE_NUM: 3
+================================================================================
+Bitmap Heap Scan on carmichael_number  (cost=106.14..15566.38 rows=3936 width=14) (actual time=418.290..440.140 rows=3339.00 loops=1)
+  Recheck Cond: (factors @> '{23,401,8009}'::bigint[])
+  Heap Blocks: exact=3339
+  Buffers: shared hit=18614 read=4718
+  ->  Bitmap Index Scan on factors_index  (cost=0.00..105.16 rows=3936 width=0) (actual time=417.897..417.898 rows=3339.00 loops=1)
+        Index Cond: (factors @> '{23,401,8009}'::bigint[])
+        Index Searches: 1
+        Buffers: shared hit=17710 read=2283
+Planning:
+  Buffers: shared hit=153
+Planning Time: 1.531 ms
+Execution Time: 440.410 ms
