@@ -1,4 +1,4 @@
-# CPSC571 - Carmichael DB
+# CPSC571/671 - Carmichael DB
 ## Authors
 - Gustavo Bravo
 - Jonathan Webster
@@ -354,4 +354,4 @@ CPSC571-Carmichael_Storage/
 └── README.md                      # This file
 ```
 
-Developed as part of CPSC 571 - Database Management Systems at the University of Calgary.
+Developed as part of CPSC 571 and CPSC 671 - Database Management Systems at the University of Calgary.
