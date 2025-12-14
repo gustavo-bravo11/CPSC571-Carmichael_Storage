@@ -19,11 +19,12 @@
             <h2>Search Carmichael Numbers By Prime Factors</h2>
             <div class="lookup-section">
                 <div class="input-container">
-                    <input type="number" class="number-input" min="2">
-                    <input type="number" class="number-input" min="2">
-                    <input type="number" class="number-input" min="2">
+                    <input type="text" class="number-input" inputmode="numeric" min="2">
+                    <input type="text" class="number-input" inputmode="numeric" min="2">
+                    <input type="text" class="number-input" inputmode="numeric" min="2">
                 </div>
                 <div class="controls-right">
+                    <button class="clear-btn">Clear Inputs</button>
                     <button class="search-btn">Find Numbers</button>
                     <div class="control-container">
                         <button class="control-btn remove-btn">-</button>
@@ -37,7 +38,7 @@
         <section id="factors" class="hidden">
             <h2>Prime Factorization of Carmichael Numbers</h2>
             <div class="lookup-section">
-                <input type="number" class="number-input" min="561">
+                <input type="text" class="number-input" inputmode="numeric" min="561">
                 <button class="search-btn">Get Factors</button>
             </div>
             <div class="result-container hidden"></div> 

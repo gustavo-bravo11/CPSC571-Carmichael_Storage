@@ -58,7 +58,7 @@ async function fetchCarmichaelNumber(factors, page=1, limit=30) {
  * @throws {Error} If the HTTP request fails
  */
 async function fetchFactors(number) {
-    const baseUrl = `${API_BASE_URL}/api/numbers`;
+    const baseUrl = `${API_BASE_URL}/api/factors`;
     try {
         const response = await fetch(`${baseUrl}?number=${number.toString()}`)
         if (!response.ok) throw new Error('HTTP error status:', response.status);
@@ -102,39 +102,189 @@ function initializeNavigation() {
 }
 
 // Page Handling
+
+// Divisibility Page
 function initializeDivisibility() {
     const searchBtn = document.querySelector('#divisibility .search-btn');
-    const resultContainer = document.querySelector('#divisibility .result-container');
+    const addBtn = document.querySelector('#divisibility .add-btn');
+    const removeBtn = document.querySelector('#divisibility .remove-btn');
+    const clearBtn = document.querySelector('#divisibility .clear-btn');
+    const inputContainer = document.querySelector('#divisibility .input-container');
 
-    // Add click event
-    searchBtn.addEventListener('click', async function() {
+    clearBtn.addEventListener('click', function() {
         const inputs = document.querySelectorAll('#divisibility .number-input');
-        const factors = Array.from(inputs)
-            .map(input => input.value.trim())
-            .filter(value => value !== '')
-            .map(value => parseInt(value));
+        inputs.forEach(box => {
+            box.value = '';
+        });
+    });
 
-        if (factors.length === 0) {
-            alert('Please add at least one factor');
+    addBtn.addEventListener('click', function() {
+        const inputs = document.querySelectorAll('#divisibility .number-input');
+
+        if (inputs.length < 14) {
+            const inputBox = document.querySelector('#divisibility .input-container');
+            const newInput = document.createElement('input');
+            newInput.type = 'text';
+            newInput.className = 'number-input';
+            newInput.inputMode = 'numeric';
+            newInput.min = '2';
+            
+            inputBox.appendChild(newInput);
+        } else {
+            alert("No Carmichael Number has more than 14 prime divisors.")
+        }
+    });
+
+    removeBtn.addEventListener('click', function() {
+        const inputs = document.querySelectorAll('#divisibility .number-input');
+
+        if (inputs.length > 1) {
+            inputs[inputs.length - 1].remove();
+        } else {
+            alert("You must query by at least one prime divisor.")
+        }
+    });
+
+    // Add search click event
+    searchBtn.addEventListener('click', async function() {
+        if (validateInputBoxes("#divisibility")) {
+            await searchCarmichael();
+        }
+    });
+    inputContainer.addEventListener('keypress', async function(e) {
+        if (e.key === 'Enter' && validateInputBoxes("#divisibility")) {
+            await searchCarmichael();
+        }
+    });
+}
+
+// Factorization Page
+function initializeFactorization() {
+    const searchBtn = document.querySelector('#factors .search-btn');
+    const numberInput = document.querySelector('#factors .number-input');
+    const resultContainer = document.querySelector('#factors .result-container');
+
+    searchBtn.addEventListener('click', async function() {
+        if (validateInputBoxes('#factors')) {
+            await searchFactors();
+        }
+    });
+
+    numberInput.addEventListener('keypress', async function(e) {
+        if (e.key === 'Enter' && validateInputBoxes('#factors')) {
+            await searchFactors();
+        }
+    });
+
+    async function searchFactors() {
+        const number = numberInput.value.trim();
+
+        if (!number || number === '') {
+            alert('Please enter a Carmichael number');
+            return;
+        }
+
+        const carmichaelNum = parseInt(number);
+
+        if (isNaN(carmichaelNum) || carmichaelNum < 561) {
+            alert('Please enter a valid Carmichael number (minimum 561)');
             return;
         }
 
         resultContainer.classList.remove('hidden');
-        resultContainer.innerHTML = '<p>Loading results...</p>';
+        resultContainer.innerHTML = '<p>Loading factors...</p>';
 
-        const data = await fetchCarmichaelNumber(factors);
+        const data = await fetchFactors(carmichaelNum);
 
         if (data && data.success) {
-            displayCarmichaelResults(data, factors);
+            displayFactorsResults(data, carmichaelNum);
         } else {
-            resultContainer.innerHTML =
-                '<p>Error Retrieving Results. Is the server running?';
+            resultContainer.innerHTML = 
+                '<p>Error retrieving factors. The number may not be a Carmichael number, or the server may be down.</p>';
         }
+    }
+}
+
+// Display factors results
+function displayFactorsResults(data, number) {
+    const resultContainer = document.querySelector('#factors .result-container');
+
+    if (!data.data || data.data.length === 0) {
+        resultContainer.innerHTML = `<p>No factors found for ${number}</p>`;
+        return;
+    }
+
+    let html = `
+        <div class="factors-result">
+            <div class="factors-header">
+                <h3>Prime Factorization of ${number}</h3>
+                <p class="factor-count">${data.data.length} prime factors</p>
+            </div>
+            <div class="factors-display">
+                <p class="factorization">${number} = ${data.data.join(' × ')}</p>
+            </div>
+            <div class="factors-list-container">
+                <h4>Individual Factors:</h4>
+                <ul class="factors-list">
+    `;
+
+    data.data.forEach((factor, index) => {
+        html += `<li><span class="factor-number">${index + 1}.</span> ${factor}</li>`;
     });
 
+    html += `
+                </ul>
+            </div>
+        </div>
+    `;
+
+    resultContainer.innerHTML = html;
 }
 
 // Helper Functions
+
+// Ensure numeric input
+function validateInputBoxes(section) {
+    const numberInputs = document.querySelectorAll(`${section} .number-input`);
+
+    let validInput = true
+    numberInputs.forEach(box => {
+        if (box.value !== '' && !/^\d+$/.test(box.value)) {
+            box.value = '';
+            validInput = false;
+        }
+    });
+    if (!validInput) {
+        alert(`Invalid input found, ensure numberic input`);
+    }
+    return validInput;
+}
+
+async function searchCarmichael() {
+    const inputs = document.querySelectorAll('#divisibility .number-input');
+    const resultContainer = document.querySelector('#divisibility .result-container');
+    const factors = Array.from(inputs)
+        .map(input => input.value.trim())
+        .filter(value => value !== '')
+        .map(value => parseInt(value));
+
+    if (factors.length === 0) {
+        alert('Please add at least one factor');
+        return;
+    }
+
+    resultContainer.classList.remove('hidden');
+    resultContainer.innerHTML = '<p>Loading results...</p>';
+
+    const data = await fetchCarmichaelNumber(factors);
+
+    if (data && data.success) {
+        displayCarmichaelResults(data, factors);
+    } else {
+        resultContainer.innerHTML =
+            '<p>Error Retrieving Results. Is the server running?';
+    }
+}
 
 // Display the results of the carmichael query as a table
 function displayCarmichaelResults(data, factors) {
@@ -159,10 +309,10 @@ function displayCarmichaelResults(data, factors) {
                 </div>
                 <div class="pagination-controls">
                     ${data.page > 1 ? '<button class="pagination-btn prev-btn">Previous</button>' : ''}
+                    ${data.page < data.totalPages ? '<button class="pagination-btn next-btn">Next</button>' : ''}
                     <div class="pagination-info">
                         Page ${data.page} / ${data.totalPages}
                     </div>
-                    ${data.page < data.totalPages ? '<button class="pagination-btn next-btn">Next</button>' : ''}
                 </div>
             </div>
             <table class="results-table">
@@ -195,11 +345,11 @@ function displayCarmichaelResults(data, factors) {
                     <p class="result-stats">Showing ${data.count} of ${data.total} results</p>
                 </div>
                 <div class="pagination-controls">
-                    ${data.page > 1 ? '<button class="pagination-btn prev-btn">Previous</button>' : ''}
-                    <div class="pagination-info">
-                        Page ${data.page} / ${data.totalPages}
-                    </div>
-                    ${data.page < data.totalPages ? '<button class="pagination-btn next-btn">Next</button>' : ''}
+                ${data.page > 1 ? '<button class="pagination-btn prev-btn">Previous</button>' : ''}
+                ${data.page < data.totalPages ? '<button class="pagination-btn next-btn">Next</button>' : ''}
+                <div class="pagination-info">
+                    Page ${data.page} / ${data.totalPages}
+                </div>
                 </div>
             </div>
         </div>
@@ -207,16 +357,17 @@ function displayCarmichaelResults(data, factors) {
 
     resultContainer.innerHTML = html;
 
-    attachPaginationListeners();
+    attachPaginationListeners("divisibility", "table-header");
+    attachPaginationListeners("divisibility", "table-footer");
 }
 
 // Listen for the button click to go to the next or previous page
-function attachPaginationListeners() {
-    const container = document.querySelector('.results-table-container');
+function attachPaginationListeners(section, table_location) {
+    const container = document.querySelector(`#${section} .results-table-container`);
     if (!container) return;
 
-    const prevBtn = container.querySelector('.prev-btn');
-    const nextBtn = container.querySelector('.next-btn');
+    const prevBtn = container.querySelector(`.${table_location} .prev-btn`);
+    const nextBtn = container.querySelector(`.${table_location} .next-btn`);
 
     const factors = container.dataset.factors.split(',').map(f => parseInt(f));
     const currentPage = parseInt(container.dataset.currentPage);
@@ -248,4 +399,5 @@ function attachPaginationListeners() {
 document.addEventListener('DOMContentLoaded', async function() {
     initializeNavigation();
     initializeDivisibility();
+    initializeFactorization();
 });
