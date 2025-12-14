@@ -205,6 +205,8 @@ function initializeFactorization() {
     }
 }
 
+// Helper Functions
+
 // Display factors results
 function displayFactorsResults(data, number) {
     const resultContainer = document.querySelector('#factors .result-container');
@@ -241,8 +243,6 @@ function displayFactorsResults(data, number) {
     resultContainer.innerHTML = html;
 }
 
-// Helper Functions
-
 // Ensure numeric input
 function validateInputBoxes(section) {
     const numberInputs = document.querySelectorAll(`${section} .number-input`);
@@ -260,6 +260,7 @@ function validateInputBoxes(section) {
     return validInput;
 }
 
+// Ensure all the inputs are good, control the fetching and displaying of data to the website
 async function searchCarmichael() {
     const inputs = document.querySelectorAll('#divisibility .number-input');
     const resultContainer = document.querySelector('#divisibility .result-container');
