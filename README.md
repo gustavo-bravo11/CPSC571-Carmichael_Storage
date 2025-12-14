@@ -11,6 +11,8 @@ The web application can be accessed at: https://blue.butler.edu/~gbravo/
 
 **Disclaimer:** Due to the absence of an SSL certificate (we are currently in the process of obtaining one from Butler University), the backend API is only accessible when running on a local machine. For our demonstration to the TA, we will show the complete system running end-to-end. The system can also be tested locally by following the setup instructions below.
 
+Since Gustavo is not a student of Butler University the website will be migrated to a new Butler University Link upon completion of this course.
+
 ## Overview
 
 This project is a two-step process designed to analyze and serve Carmichael number data efficiently:
