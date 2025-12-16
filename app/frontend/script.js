@@ -53,14 +53,14 @@ async function fetchCarmichaelNumber(factors, page=1, limit=30) {
 
 /**
  * Get the factors for a carmichael number from the API
- * @param {Number} number - The carmichael number we are querying for
+ * @param {String} numberString - The carmichael number we are querying for
  * @returns {Promise<Object|null>} The API response object, null if failed
  * @throws {Error} If the HTTP request fails
  */
-async function fetchFactors(number) {
+async function fetchFactors(numberString) {
     const baseUrl = `${API_BASE_URL}/api/factors`;
     try {
-        const response = await fetch(`${baseUrl}?number=${number.toString()}`)
+        const response = await fetch(`${baseUrl}?number=${numberString}`)
         if (!response.ok) throw new Error('HTTP error status:', response.status);
 
         const data = await response.json();
@@ -68,7 +68,7 @@ async function fetchFactors(number) {
     } catch (error) {
         console.error(
             'Failed to fetch prime factors ' + 
-            `for the Carmichael Number: ${number.toString()}. \n` +
+            `for the Carmichael Number: ${numberString}. \n` +
             `Error: ${error}`
         );
         return null;
@@ -162,46 +162,40 @@ function initializeDivisibility() {
 function initializeFactorization() {
     const searchBtn = document.querySelector('#factors .search-btn');
     const numberInput = document.querySelector('#factors .number-input');
-    const resultContainer = document.querySelector('#factors .result-container');
-
+    
     searchBtn.addEventListener('click', async function() {
         if (validateInputBoxes('#factors')) {
-            await searchFactors();
+            await searchFactors(numberInput);
         }
     });
-
+    
     numberInput.addEventListener('keypress', async function(e) {
         if (e.key === 'Enter' && validateInputBoxes('#factors')) {
-            await searchFactors();
+            await searchFactors(numberInput);
         }
     });
+}
 
-    async function searchFactors() {
-        const number = numberInput.value.trim();
+// Get factors from Database
+async function searchFactors(numberInput) {
+    const number = numberInput.value.trim();
+    
+    if (!number || number === '') {
+        alert('Please enter a Carmichael number');
+        return;
+    }
+    
+    const resultContainer = document.querySelector('#factors .result-container');
+    resultContainer.classList.remove('hidden');
+    resultContainer.innerHTML = '<p>Loading factors...</p>';
 
-        if (!number || number === '') {
-            alert('Please enter a Carmichael number');
-            return;
-        }
+    const data = await fetchFactors(number);
 
-        const carmichaelNum = parseInt(number);
-
-        if (isNaN(carmichaelNum) || carmichaelNum < 561) {
-            alert('Please enter a valid Carmichael number (minimum 561)');
-            return;
-        }
-
-        resultContainer.classList.remove('hidden');
-        resultContainer.innerHTML = '<p>Loading factors...</p>';
-
-        const data = await fetchFactors(carmichaelNum);
-
-        if (data && data.success) {
-            displayFactorsResults(data, carmichaelNum);
-        } else {
-            resultContainer.innerHTML = 
-                '<p>Error retrieving factors. The number may not be a Carmichael number, or the server may be down.</p>';
-        }
+    if (data && data.success) {
+        displayFactorsResults(data, number);
+    } else {
+        resultContainer.innerHTML = 
+            '<p>Error retrieving factors. The server may be down.</p>';
     }
 }
 
@@ -212,7 +206,7 @@ function displayFactorsResults(data, number) {
     const resultContainer = document.querySelector('#factors .result-container');
 
     if (!data.data || data.data.length === 0) {
-        resultContainer.innerHTML = `<p>No factors found for ${number}</p>`;
+        resultContainer.innerHTML = `<p>${number} is not a Carmichael Number or the number exceeds 10^24.</p>`;
         return;
     }
 
